@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 type CodeSnippetProps = {
   code: string;
 };
@@ -20,13 +20,13 @@ const CodeSnippet: React.FC<CodeSnippetProps> = ({ code }) => {
   };
 
   return (
-    <div className="relative bg-gray-900 text-white rounded-lg">
-      <SyntaxHighlighter language="typescript" style={tomorrow}>
+    <div className="relative bg-zinc-950 overflow-auto scrollbar text-white rounded-lg">
+      <SyntaxHighlighter language="typescript" style={atomDark}>
         {code}
       </SyntaxHighlighter>
       <button
         onClick={handleCopy}
-        className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded"
+        className="absolute top-2 right-2 bg-zinc-500 hover:bg-zinc-600 text-white px-2 py-1 rounded"
       >
         {isCopied ? "Copied!" : "Copy"}
       </button>
