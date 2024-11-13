@@ -9,7 +9,7 @@ const Sidebar = () => {
       {/* Components list */}
       <ul className='pl-4 text-sm'>
         <li className='py-1'><Link href={"/components/alert"}>Alert</Link></li>
-        <li className='py-1'><Link href={""}>Input</Link></li>
+        <li className='py-1'><Link href={"/components/input"}>Input</Link></li>
         <li className='py-1'><Link href={""}>ChackBox</Link></li>
         <li className='py-1'><Link href={""}>Badge</Link></li>
         <li className='py-1'><Link href={""}>Button</Link></li>

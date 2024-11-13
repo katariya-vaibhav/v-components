@@ -1,11 +1,9 @@
 "use client";
-import CodeSnippet from "@/app/component/CodeSnippet";
-import React, { useState } from "react";
+import ComponentsLayout from "@/app/component/ComponentsLayout";
+import React from "react";
 
 // Main Alert Component
 const Alert = () => {
-  const [showCode, setShowCode] = useState(false);
-
   const codeSnippet = `
 import React from 'react';
 import { AlertBody } from '@/components/alert';
@@ -78,60 +76,21 @@ export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
 
   return (
     <div>
-      <h2 className="font-bold text-3xl">Alert</h2>
-      <p className="text-zinc-500 text-md">
-        Displays a callout for user attention.
-      </p>
-
-      <div className="my-7">
-        <div className="flex space-x-4 mb-4">
-          <button
-            onClick={() => setShowCode(false)}
-            className={`py-2 px-4 ${
-              !showCode ? "border-b-[1px] text-white" : "border-b-0"
-            }`}
-          >
-            Preview
-          </button>
-          <button
-            onClick={() => setShowCode(true)}
-            className={`py-2 px-4 ${
-              showCode ? "border-b-[1px] text-white" : "border-b-0"
-            }`}
-          >
-            Code
-          </button>
-        </div>
-
-        <div className="border-[1px] border-zinc-800 text-white rounded-lg w-full">
-          <div className="p-4 h-[20rem] overflow-auto scrollbar">
-            {showCode ? (
-              <CodeSnippet code={codeSnippet} />
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <AlertBody
-                  alertTitle="Heads up!"
-                  alertDescription="You can add components to your app using the CLI."
-                  type="error"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <h2 className="text-md text-zinc-400 py-2">
-        Copy this code and create a new component at{" "}
-        <span className="text-zinc-100">@/components/alert</span>
-      </h2>
-      <p className="text-md text-zinc-500 mb-4">
-        The `Alert` component provides a customizable way to display
-        notifications or important information to users with pre-configured
-        styles for different alert types. Each alert type (e.g., success,
-        warning, error, info) is styled uniquely to convey the nature of the
-        message visually.
-      </p>
-      <CodeSnippet code={componentCode} />
+      <ComponentsLayout
+        componentTitle="Alert"
+        componentDescription="Displays a callout for user attention."
+        codeSnippet={codeSnippet}
+        componentCode={componentCode}
+        componentPath="@/components/alert"
+        componentsUses=" The `Alert` component provides a customizable way to display notifications or important information to users with pre-configured styles for different alert types. Each alert type (e.g., success, warning, error, info) is styled uniquely to convey the nature of the message visually."
+        livePreviewCode={
+          <AlertBody
+            alertTitle="Heads up!"
+            alertDescription="You can add components to your app using the CLI."
+            type="error"
+          />
+        }
+      />
     </div>
   );
 };
