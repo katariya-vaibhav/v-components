@@ -10,9 +10,9 @@ const Sidebar = () => {
       <ul className='pl-4 text-sm'>
         <li className='py-1'><Link href={"/components/alert"}>Alert</Link></li>
         <li className='py-1'><Link href={"/components/input"}>Input</Link></li>
-        <li className='py-1'><Link href={""}>ChackBox</Link></li>
-        <li className='py-1'><Link href={""}>Badge</Link></li>
-        <li className='py-1'><Link href={""}>Button</Link></li>
+        <li className='py-1'><Link href={"/components/checkbox"}>ChackBox</Link></li>
+        <li className='py-1'><Link href={"/components/badge"}>Badge</Link></li>
+        <li className='py-1'><Link href={"/components/button"}>Button</Link></li>
         <li className='py-1'><Link href={""}>Dialog</Link></li>
         <li className='py-1'><Link href={""}>Dropdown Menu</Link></li>
         <li className='py-1'><Link href={""}>Hover Card</Link></li>
