@@ -231,4 +231,3 @@ export { Button };
 };
 
 export default ButtonComponentLayout;
-export { Button };

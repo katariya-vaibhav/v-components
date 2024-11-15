@@ -118,4 +118,3 @@ export { Badge };
 };
 
 export default BadgeComponentLayout;
-export { Badge };

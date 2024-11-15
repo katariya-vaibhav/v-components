@@ -45,8 +45,6 @@ const Checkbox: React.FC<CheckboxProps> = ({
   );
 };
 
-export { Checkbox };
-
 // Demo Component for Checkbox
 const CheckboxDemo = () => {
   const [termsChecked, setTermsChecked] = useState(false);
