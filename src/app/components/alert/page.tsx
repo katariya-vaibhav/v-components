@@ -109,6 +109,7 @@ export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
 
 export default AlertLayout;
 
+
 // src/components/alert/index.tsx
 type AlertType = "success" | "warning" | "error" | "info";
 
@@ -157,7 +158,7 @@ const AlertTitle = ({ children }: { children: React.ReactNode }) => (
 );
 
 const AlertIcon = ({ type }: { type: AlertType }) => {
-  const icons: Record<AlertType, string> = {
+  const icons = {
     success: "✔️",
     warning: "⚠️",
     error: "❌",
