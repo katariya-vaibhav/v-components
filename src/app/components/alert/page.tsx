@@ -3,7 +3,7 @@ import ComponentsLayout from "@/app/component/ComponentsLayout";
 import React from "react";
 
 // Main Alert Component
-const Alert = () => {
+const AlertLayout = () => {
   const codeSnippet = `
   import React from 'react';
   import { AlertBody } from '@/components/alert';
@@ -107,9 +107,9 @@ export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
   );
 };
 
-export default Alert;
+export default AlertLayout;
 
-// Component Definitions
+// src/components/alert/index.tsx
 type AlertType = "success" | "warning" | "error" | "info";
 
 interface AlertProps {
@@ -126,6 +126,7 @@ const alertStyles: Record<AlertType | "base", string> = {
   info: "bg-blue-100 text-blue-800",
 };
 
+// Alert Body Component
 const AlertBody: React.FC<AlertProps> = ({
   type = "info",
   alertTitle,
@@ -166,3 +167,4 @@ const AlertIcon = ({ type }: { type: AlertType }) => {
 };
 
 export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
+
