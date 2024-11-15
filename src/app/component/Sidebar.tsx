@@ -13,9 +13,9 @@ const Sidebar = () => {
         <li className='py-1'><Link href={"/components/checkbox"}>ChackBox</Link></li>
         <li className='py-1'><Link href={"/components/badge"}>Badge</Link></li>
         <li className='py-1'><Link href={"/components/button"}>Button</Link></li>
-        <li className='py-1'><Link href={""}>Dialog</Link></li>
-        <li className='py-1'><Link href={""}>Dropdown Menu</Link></li>
-        <li className='py-1'><Link href={""}>Hover Card</Link></li>
+        <li className='py-1'><Link href={"/components/dialog"}>Dialog</Link></li>
+        <li className='py-1'><Link href={"/components/dropdown-menu"}>Dropdown Menu</Link></li>
+        <li className='py-1'><Link href={"/components/hover-card"}>Hover Card</Link></li>
         <li className='py-1'><Link href={""}>Menubar</Link></li>
         <li className='py-1'><Link href={""}>Popover</Link></li>
         <li className='py-1'><Link href={""}>Radio Group</Link></li>

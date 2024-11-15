@@ -48,7 +48,7 @@ const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
         </div>
 
         <div className="border-[1px] border-zinc-800 text-white rounded-lg w-full">
-          <div className="p-4 h-[20rem] overflow-auto scrollbar">
+          <div className="p-4 h-[25rem] overflow-auto scrollbar">
             {showCode ? (
               <CodeSnippet code={codeSnippet} />
             ) : (
