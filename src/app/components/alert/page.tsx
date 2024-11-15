@@ -5,21 +5,21 @@ import React from "react";
 // Main Alert Component
 const Alert = () => {
   const codeSnippet = `
-import React from 'react';
-import { AlertBody } from '@/components/alert';
-
-const AlertDemo = () => (
-  <div className="flex items-center justify-center h-full">
-    <AlertBody
-      alertTitle="Heads up!"
-      alertDescription="You can add components to your app using the CLI."
-      type="error"
-    />
-  </div>
-);
-
-export default AlertDemo;
-`;
+  import React from 'react';
+  import { AlertBody } from '@/components/alert';
+  
+  const AlertDemo = () => (
+    <div className="flex items-center justify-center h-full">
+      <AlertBody
+        alertTitle="Heads up!"
+        alertDescription="You can add components to your app using the CLI."
+        type="error"
+      />
+    </div>
+  );
+  
+  export default AlertDemo;
+  `;
 
   const componentCode = `
 //@/components/alert/page.tsx
@@ -48,10 +48,14 @@ const AlertBody: React.FC<AlertProps> = ({
   alertTitle,
   alertDescription,
 }) => {
-  const alertTypeStyle = alertStyles[type] || alertStyles.info;
+  const alertTypeStyle = alertStyles[type];
   return (
-    <div className={\`\${alertStyles.base} \${alertTypeStyle}\`}>
-      <AlertIcon />
+    <div
+      role="alert"
+      aria-live={type === "error" ? "assertive" : "polite"}
+      className={\`\${alertStyles.base} \${alertTypeStyle}\`}
+    >
+      <AlertIcon type={type} />
       <div>
         <AlertTitle>{alertTitle}</AlertTitle>
         <AlertDescription>{alertDescription}</AlertDescription>
@@ -69,7 +73,15 @@ const AlertTitle = ({ children }: { children: React.ReactNode }) => (
   <div className="font-semibold">{children}</div>
 );
 
-const AlertIcon = () => <span className="mr-2 text-lg">⚠️</span>;
+const AlertIcon = ({ type }: { type: AlertType }) => {
+  const icons: Record<AlertType, string> = {
+    success: "✔️",
+    warning: "⚠️",
+    error: "❌",
+    info: "ℹ️",
+  };
+  return <span className="mr-2 text-lg">{icons[type]}</span>;
+};
 
 export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
 `;
@@ -119,10 +131,14 @@ const AlertBody: React.FC<AlertProps> = ({
   alertTitle,
   alertDescription,
 }) => {
-  const alertTypeStyle = alertStyles[type] || alertStyles.info;
+  const alertTypeStyle = alertStyles[type];
   return (
-    <div className={`${alertStyles.base} ${alertTypeStyle}`}>
-      <AlertIcon />
+    <div
+      role="alert"
+      aria-live={type === "error" ? "assertive" : "polite"}
+      className={`${alertStyles.base} ${alertTypeStyle}`}
+    >
+      <AlertIcon type={type} />
       <div>
         <AlertTitle>{alertTitle}</AlertTitle>
         <AlertDescription>{alertDescription}</AlertDescription>
@@ -139,6 +155,14 @@ const AlertTitle = ({ children }: { children: React.ReactNode }) => (
   <div className="font-semibold">{children}</div>
 );
 
-const AlertIcon = () => <span className="mr-2 text-lg">⚠️</span>;
+const AlertIcon = ({ type }: { type: AlertType }) => {
+  const icons: Record<AlertType, string> = {
+    success: "✔️",
+    warning: "⚠️",
+    error: "❌",
+    info: "ℹ️",
+  };
+  return <span className="mr-2 text-lg">{icons[type]}</span>;
+};
 
 export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
