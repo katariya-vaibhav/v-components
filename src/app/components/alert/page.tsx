@@ -3,13 +3,28 @@ import ComponentsLayout from "@/app/component/ComponentsLayout";
 import React from "react";
 
 // Main Alert Component
+
+// import { AlertBody } from "@/components/alert"; // Import reusable alert component
+
+const AlertDemo = () => {
+  return (
+    <div className="flex items-center justify-center">
+      <AlertBody
+        alertTitle="Heads up!"
+        alertDescription="You can add components to your app using the CLI."
+        type="error"
+      />
+    </div>
+  );
+};
+
 const AlertLayout = () => {
   const codeSnippet = `
   import React from 'react';
   import { AlertBody } from '@/components/alert';
   
   const AlertDemo = () => (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex items-center justify-center">
       <AlertBody
         alertTitle="Heads up!"
         alertDescription="You can add components to your app using the CLI."
@@ -95,20 +110,13 @@ export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
         componentCode={componentCode}
         componentPath="@/components/alert"
         componentsUses=" The `Alert` component provides a customizable way to display notifications or important information to users with pre-configured styles for different alert types. Each alert type (e.g., success, warning, error, info) is styled uniquely to convey the nature of the message visually."
-        livePreviewCode={
-          <AlertBody
-            alertTitle="Heads up!"
-            alertDescription="You can add components to your app using the CLI."
-            type="error"
-          />
-        }
+        livePreviewCode={<AlertDemo />}
       />
     </div>
   );
 };
 
 export default AlertLayout;
-
 
 // src/components/alert/index.tsx
 type AlertType = "success" | "warning" | "error" | "info";
@@ -168,4 +176,3 @@ const AlertIcon = ({ type }: { type: AlertType }) => {
 };
 
 export { AlertIcon, AlertTitle, AlertDescription, AlertBody };
-
