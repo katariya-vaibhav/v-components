@@ -175,4 +175,3 @@ const AlertIcon = ({ type }: { type: AlertType }) => {
   return <span className="mr-2 text-lg">{icons[type]}</span>;
 };
 
-export { AlertBody };
