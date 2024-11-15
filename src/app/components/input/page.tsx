@@ -208,4 +208,3 @@ export { Input };
 };
 
 export default InputComponentLayout;
-export { Input };
