@@ -23,7 +23,7 @@ export async function connect() {
     connection.isConnected = true;
     console.log("Connected to MongoDB");
   } catch (error) {
-    console.log("Error connecting");
+    console.log("Error connecting" , error);
     process.exit(1);
   }
 }
