@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 // Define the Component schema
 const componentSchema = new Schema(
@@ -46,4 +46,4 @@ const componentSchema = new Schema(
 );
 
 // Create the Component model
-export const Component = model("Component", componentSchema);
+export const Component = mongoose.models.components || model("Component", componentSchema);
