@@ -15,7 +15,7 @@ export const getData = (req: NextRequest) => {
       });
     }
 
-    const decodedToken: any = jwt.verify(token, process.env.jwt_secret!) as DecodedToken;
+    const decodedToken = jwt.verify(token, process.env.jwt_secret!) as DecodedToken;
     return decodedToken.userId;
   } catch (error) {
     console.log("error while getting data from token", error);
