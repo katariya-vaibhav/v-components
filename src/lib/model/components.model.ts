@@ -46,4 +46,4 @@ const componentSchema = new Schema(
 );
 
 // Create the Component model
-export const Component = mongoose.models.components || model("Component", componentSchema);
+export const Component = mongoose.models.Component || model("Component", componentSchema);
