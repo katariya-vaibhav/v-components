@@ -2,7 +2,7 @@
 
 import { connect } from "@/lib/db/db.connection";
 import { Component } from "@/lib/model/components.model";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 connect();
 export async function GET() {
