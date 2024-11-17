@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import { connect } from "@/lib/db/db.connection";
 import { User } from "@/lib/model/user.model";
 import { getData } from "@/utils/getDataFromToken";
@@ -14,8 +14,10 @@ export async function GET(request: NextRequest) {
         success: false,
       });
     }
-    
-    const user = await User.findById(userId);
+
+    const user = await User.findById(userId)
+      .select("-password")
+      .populate("components");
     if (!user) {
       return NextResponse.json({
         message: "User not found",

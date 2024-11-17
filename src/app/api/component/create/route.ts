@@ -74,6 +74,16 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    await User.findByIdAndUpdate(
+      user._id,
+      {
+        $push: { components: createdComponent._id },
+      },
+      {
+        new: true,
+      }
+    );
+
     return NextResponse.json({
       status: 201,
       message: "Component created successfully.",
