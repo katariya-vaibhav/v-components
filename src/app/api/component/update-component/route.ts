@@ -20,17 +20,6 @@ function extractPublicId(url: string): string {
   return `${parts[parts.length - 2]}/${publicId}`;
 }
 
-interface ComponentProps {
-  title: string;
-  description: string;
-  type: string;
-  liveCode: string;
-  componentPath: string;
-  codeSnippet: string;
-  componentCode: string;
-  componentsUses: string;
-}
-
 export async function PUT(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
