@@ -113,8 +113,8 @@ export async function POST(request: NextRequest) {
       message: "Component created successfully.",
       data: createdComponent,
     });
-  } catch (error: any) {
-    console.error("Error while creating component:", error.message || error);
+  } catch (error) {
+    console.error("Error while creating component:",  error);
     return NextResponse.json({
       status: 500,
       message: "An unexpected error occurred while creating the component.",

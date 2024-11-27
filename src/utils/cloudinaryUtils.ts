@@ -45,8 +45,8 @@ export const uploadFileToCloudinary = async (
     );
 
     return result.secure_url;
-  } catch (error: any) {
-    console.error("Error uploading media to Cloudinary:", error.message || error);
+  } catch (error) {
+    console.error("Error uploading media to Cloudinary:", error);
     throw new Error("Media upload failed");
   }
 };
@@ -59,11 +59,8 @@ export const deleteFileFromCloudinary = async (
     await cloudinary.uploader.destroy(publicId, {
       resource_type: resourceType,
     });
-  } catch (error: any) {
-    console.error(
-      "Error deleting media from Cloudinary:",
-      error.message || error
-    );
+  } catch (error) {
+    console.error("Error deleting media from Cloudinary:", error);
     throw new Error("Media deletion failed");
   }
 };
