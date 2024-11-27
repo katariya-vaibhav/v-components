@@ -7,10 +7,8 @@ import {  NextResponse } from "next/server";
 connect();
 export async function GET() {
   try {
-    const allComponents = await Component.find({}).populate({
-      path: "owner",
-      select: "name",
-    });
+    const allComponents = await Component.find({})
+    
     if (allComponents.length < 0) {
       return NextResponse.json({
         status: 404,

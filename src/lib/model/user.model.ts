@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import { Component } from "./components.model"; // Import the Component model
 
 const userSchema = new Schema(
   {
@@ -18,12 +19,12 @@ const userSchema = new Schema(
     components: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Component",
+        ref: "Component", // Reference to the Component model
       },
     ],
   },
   {
-    timestamps: true,
+    timestamps: true, // Automatically add `createdAt` and `updatedAt`
   }
 );
 

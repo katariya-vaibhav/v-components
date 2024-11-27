@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import { User } from "./user.model"; // Import User model to reference it
 
 // Define the Component schema
 const componentSchema = new Schema(
@@ -7,9 +8,11 @@ const componentSchema = new Schema(
       type: String,
       required: true,
     },
-    liveCode: {
+    image: {
       type: String,
-      required: true, // Stores the live code for rendering
+    },
+    video: {
+      type: String,
     },
     componentPath: {
       type: String,
@@ -38,6 +41,10 @@ const componentSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User", // Reference to the User model
+      required: true, // Ensure a component must have an owner
+    },
+    liveCode: {
+      type: String,
     },
   },
   {
