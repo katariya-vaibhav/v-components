@@ -5,13 +5,16 @@ import { Component } from "@/lib/model/components.model";
 import { User } from "@/lib/model/user.model";
 import { getData } from "@/utils/getDataFromToken";
 import { NextRequest, NextResponse } from "next/server";
+import { deleteFileFromCloudinary } from "@/utils/cloudinaryUtils"; 
 
 connect();
+
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
     const componentId = searchParams.get("id");
     const userId = getData(request);
+
     if (!componentId) {
       return NextResponse.json({
         message: "Invalid component ID",
@@ -43,25 +46,44 @@ export async function DELETE(request: NextRequest) {
       });
     }
 
+    // Remove associated media from Cloudinary
+    if (component.image) {
+      const imagePublicId = extractPublicId(component.image);
+      await deleteFileFromCloudinary(imagePublicId, "image");
+    }
+
+    if (component.video) {
+      const videoPublicId = extractPublicId(component.video);
+      await deleteFileFromCloudinary(videoPublicId, "video");
+    }
+
+    // Delete the component
     await Component.findByIdAndDelete(componentId);
+
+    // Update the user's components list
     await User.findByIdAndUpdate(
       user._id,
-      {
-        $pull: { components: componentId },
-      },
-      {
-        new: true,
-      }
+      { $pull: { components: componentId } },
+      { new: true }
     );
+
     return NextResponse.json({
       message: "Component deleted successfully",
       status: 200,
     });
   } catch (error) {
-    console.log("error while deleting component: ", error);
+    console.log("Error while deleting component: ", error);
     return NextResponse.json({
       message: "Error while deleting component",
       status: 500,
     });
   }
+}
+
+// Utility function to extract Cloudinary public_id from URL
+function extractPublicId(url: string): string {
+  const parts = url.split("/");
+  const fileWithExtension = parts[parts.length - 1];
+  const [publicId] = fileWithExtension.split(".");
+  return `${parts[parts.length - 2]}/${publicId}`;
 }
