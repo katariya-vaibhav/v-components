@@ -1,5 +1,4 @@
 import mongoose, { Schema, model } from "mongoose";
-import { User } from "./user.model"; // Import User model to reference it
 
 // Define the Component schema
 const componentSchema = new Schema(
