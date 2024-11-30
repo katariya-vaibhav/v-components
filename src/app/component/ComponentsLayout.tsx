@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import CodeSnippet from "./CodeSnippet";
+import Image from "next/image";
 
 interface ComponentsLayoutProps {
   codeSnippet: string;
@@ -9,8 +10,11 @@ interface ComponentsLayoutProps {
   componentDescription: string;
   componentPath: string;
   componentsUses?: string;
-  livePreviewCode: React.ReactNode;
+  livePreviewCode?: React.ReactNode | null;
+  previewImage?: string | null;
+  previewVideo?: string | null;
 }
+
 const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
   codeSnippet,
   componentCode,
@@ -19,6 +23,8 @@ const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
   componentPath,
   componentsUses,
   livePreviewCode,
+  previewImage,
+  previewVideo,
 }) => {
   const [showCode, setShowCode] = useState(false);
 
@@ -53,7 +59,25 @@ const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
               <CodeSnippet code={codeSnippet} />
             ) : (
               <div className="flex items-center justify-center min-h-full">
-                {livePreviewCode}
+                {livePreviewCode ? (
+                  <div>{livePreviewCode}</div>
+                ) : previewImage ? (
+                  <Image
+                    src={previewImage}
+                    alt="Component Preview"
+                    width={500}
+                    height={500}
+                    layout="intrinsic" 
+                    className="rounded-lg"
+                  />
+                ) : previewVideo ? (
+                  <video controls className="rounded-md">
+                    <source src={previewVideo} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <p className="text-zinc-400">No preview available</p>
+                )}
               </div>
             )}
           </div>
