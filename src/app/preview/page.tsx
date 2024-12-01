@@ -4,8 +4,19 @@ import React, { useEffect, useState } from "react";
 import ComponentsLayout from "@/app/component/ComponentsLayout";
 import axios from "axios";
 
+// Define the interface for previewData
+interface PreviewData {
+  componentTitle: string;
+  componentDescription: string;
+  componentPath: string;
+  codeSnippet: string;
+  componentCode: string;
+  previewMedia?: string;
+  mediaType?: "image" | "video";
+}
+
 const PreviewPage = () => {
-  const [previewData, setPreviewData] = useState<any>(null);
+  const [previewData, setPreviewData] = useState<PreviewData | null>(null);
   const [submitStatus, setSubmitStatus] = useState<string>("");
 
   useEffect(() => {
@@ -40,7 +51,7 @@ const PreviewPage = () => {
           blob,
           "media." + blob.type.split("/")[1]
         );
-        formData.append("mediaType", previewData.mediaType);
+        formData.append("mediaType", previewData.mediaType || "image");
       }
 
       // Submit to backend
