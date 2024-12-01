@@ -40,7 +40,7 @@ const ComponentPage = () => {
 
 
   return (
-    <div className="p-4">
+    <div className="md:p-4">
       {components ? (
         <ComponentsLayout
           codeSnippet={components.codeSnippet || "No code snippet available"}
