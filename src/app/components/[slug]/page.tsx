@@ -39,7 +39,7 @@ const ComponentPage = () => {
   const [componentPath, setComponentPath] = useState("");
   const [formImage, setFormImage] = useState<File | null>(null);
   const [formVideo, setFormVideo] = useState<File | null>(null);
-  const [saveLoading, setSaveLoading] = useState<Boolean>(false);
+  const [saveLoading, setSaveLoading] = useState<boolean>(false);
 
   const fetchComponents = async () => {
     try {

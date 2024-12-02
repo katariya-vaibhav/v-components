@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -26,10 +27,12 @@ const ComponentsCard: React.FC<ComponentCardProps> = ({
       {
         <div className="h-[80%]">
           {(image && (
-            <img
+            <Image
               src={image}
               alt={title}
               className="w-full rounded-sm h-full object-center"
+              width={300}
+              height={300}
             />
           )) ||
             (video && (
