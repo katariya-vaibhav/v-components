@@ -8,7 +8,7 @@ interface ComponentsProps {
   _id: string;
   codeSnippet?: string;
   componentCode?: string;
-  componentTitle?: string;
+  title?: string;
   description?: string;
   componentPath?: string;
   componentsUses?: string;
@@ -44,7 +44,7 @@ const Page = () => {
               id={com._id}
               video={com.video}
               image={com.image}
-              title={com.componentTitle || "untitled component"}
+              title={com.title || "untitled component"}
               description={com.description || "description not available"}
             />
           ))

@@ -21,7 +21,7 @@ const ComponentsCard: React.FC<ComponentCardProps> = ({
   return (
     <Link
       href={`/components/${id}`}
-      className="w-full md:w-[30%] min-h-[15rem] md:min-h-[13rem] p-5 rounded-md border-[1px] border-zinc-600"
+      className="w-full md:w-[30%] h-[15rem] md:min-h-[13rem] p-5 rounded-md border-[1px] border-zinc-600"
     >
       {
         <div className="h-[80%]">

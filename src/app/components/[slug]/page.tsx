@@ -9,7 +9,7 @@ interface ComponentsProps {
   _id: string;
   codeSnippet?: string;
   componentCode?: string;
-  componentTitle?: string;
+  title?: string;
   description?: string;
   componentPath?: string;
   componentsUses?: string;
@@ -47,7 +47,7 @@ const ComponentPage = () => {
           componentCode={
             components.componentCode || "No component code provided"
           }
-          componentTitle={components.componentTitle || "Untitled Component"}
+          componentTitle={components.title || "Untitled Component"}
           componentDescription={
             components.description || "No description available"
           }
