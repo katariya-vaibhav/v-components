@@ -33,6 +33,8 @@ const AuthForm = () => {
     try {
       const response = await axios.post(endpoint, payload);
 
+      console.log(response);
+
       alert(
         isLogin ? "Logged in successfully!" : "Account created successfully!"
       );
@@ -42,10 +44,8 @@ const AuthForm = () => {
       } else {
         router.push("/auth"); // Redirect to login page after signup
       }
-    } catch (error: any) {
-      setErrorMessage(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +58,9 @@ const AuthForm = () => {
           {isLogin ? "Sign In" : "Sign Up"}
         </h2>
         {errorMessage && (
-          <p className="text-red-500 text-sm text-center mb-4">{errorMessage}</p>
+          <p className="text-red-500 text-sm text-center mb-4">
+            {errorMessage}
+          </p>
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           {!isLogin && (
