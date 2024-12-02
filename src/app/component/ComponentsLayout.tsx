@@ -71,7 +71,7 @@ const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
                     className="rounded-lg"
                   />
                 ) : previewVideo ? (
-                  <video controls className="rounded-md">
+                  <video controls className="rounded-md h-[300px] w-full">
                     <source src={previewVideo} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
