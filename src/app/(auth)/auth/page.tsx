@@ -44,7 +44,7 @@ const AuthForm = () => {
       } else {
         router.push("/auth"); // Redirect to login page after signup
       }
-    } catch (error) {
+    } catch {
       setErrorMessage("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
