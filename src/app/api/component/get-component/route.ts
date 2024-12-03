@@ -16,7 +16,10 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const components = await Component.findById(id);
+    const components = await Component.findById(id).populate({
+      path: "owner",
+      select: "name , email",
+    });
 
     if (!components) {
       return NextResponse.json({

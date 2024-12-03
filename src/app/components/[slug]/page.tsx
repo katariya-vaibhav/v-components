@@ -16,7 +16,11 @@ interface ComponentsProps {
   componentPath?: string;
   componentsUses?: string;
   liveCode?: React.ReactNode;
-  owner?: string;
+  owner?: {
+    _id: string;
+    name: string;
+    email: string;
+  };
   image?: string;
   video?: string;
 }
@@ -140,8 +144,13 @@ const ComponentPage = () => {
     fetchCurrentUser();
   }, []);
 
+  // const isOwner =F
+  //   currentUser && components && currentUser?._id === components?.owner._id;
+
   const isOwner =
-    currentUser && components && currentUser._id === components.owner;
+    currentUser &&
+    components?.owner &&
+    currentUser?._id === components.owner._id;
 
   return (
     <div className="md:p-4">
@@ -163,54 +172,57 @@ const ComponentPage = () => {
             } text-white rounded`}
           >
             {deleteLoading ? (
-                    <span className="flex items-center">
-                      <svg
-                        className="w-4 h-4 mr-2 animate-spin text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v8H4z"
-                        ></path>
-                      </svg>
-                      Deleting...
-                    </span>
-                  ) : (
-                    "Delete"
-                  )}
+              <span className="flex items-center">
+                <svg
+                  className="w-4 h-4 mr-2 animate-spin text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+                Deleting...
+              </span>
+            ) : (
+              "Delete"
+            )}
           </button>
         </div>
       )}
       {components ? (
         <ComponentsLayout
-          codeSnippet={components.codeSnippet || "No code snippet available"}
+          userId={components?.owner?._id}
+          ownerName={components?.owner?.name}
+          ownerEmail={components?.owner?.email}
+          codeSnippet={components?.codeSnippet || "No code snippet available"}
           componentCode={
-            components.componentCode || "No component code provided"
+            components?.componentCode || "No component code provided"
           }
-          componentTitle={components.title || "Untitled Component"}
+          componentTitle={components?.title || "Untitled Component"}
           componentDescription={
-            components.description || "No description available"
+            components?.description || "No description available"
           }
           componentPath={
-            components.componentPath || "src/components/UntitledComponent.tsx"
+            components?.componentPath || "src/components/UntitledComponent.tsx"
           }
           componentsUses={
-            components.componentsUses || "No usage information provided"
+            components?.componentsUses || "No usage information provided"
           }
-          livePreviewCode={components.liveCode || null}
-          previewImage={components.image || null}
-          previewVideo={components.video || null}
+          livePreviewCode={components?.liveCode || null}
+          previewImage={components?.image || null}
+          previewVideo={components?.video || null}
         />
       ) : (
         <p className="text-zinc-500">No components found.</p>
@@ -231,8 +243,10 @@ const ComponentPage = () => {
             </div>
             <form onSubmit={handleFormSubmit}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text
-                -zinc-400 mb-1">
+                <label
+                  className="block text-sm font-medium text
+                -zinc-400 mb-1"
+                >
                   Title
                 </label>
                 <input
@@ -244,8 +258,10 @@ const ComponentPage = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text
-                -zinc-400 mb-1">
+                <label
+                  className="block text-sm font-medium text
+                -zinc-400 mb-1"
+                >
                   Path
                 </label>
                 <input
