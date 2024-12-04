@@ -19,57 +19,80 @@ connect();
 
 export async function POST(request: NextRequest) {
   try {
+    // Parse the request body
     const { rating, comment }: ReviewProps = await request.json();
 
+    // Extract component ID and user ID
     const componentId = request.nextUrl.searchParams.get("id");
+    if (!componentId) {
+      return NextResponse.json(
+        { success: false, message: "Component ID is required." },
+        { status: 400 }
+      );
+    }
 
     const userId = getData(request);
-
-    const component = await Component.findById(componentId);
-
-    const user = await User.findById(userId);
-    if (!user) {
-      return NextResponse.json({
-        status: 404,
-        message: "User not found.",
-      });
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Invalid or missing token." },
+        { status: 401 }
+      );
     }
+
+    // Fetch the component and user
+    const [component, user] = await Promise.all([
+      Component.findById(componentId),
+      User.findById(userId),
+    ]);
 
     if (!component) {
-      return NextResponse.json({
-        success: false,
-        message: "component not found",
-      });
+      return NextResponse.json(
+        { success: false, message: "Component not found." },
+        { status: 404 }
+      );
     }
 
-    const isReviewed = component.reviews.find(
-      (rev: ReviewProps) => rev.user._id.toString() === user._id.toString()
-    );
-
-    if (isReviewed) {
-      component.reviews.forEach((rev: ReviewProps) => {
-        if (rev.user._id.toString() === user._id.toString())
-          (rev.rating = rating), (rev.comment = comment);
-      });
-    } else {
-      const review = {
-        user: user._id,
-        rating: rating,
-        comment: comment,
-      };
-      component.reviews.push(review);
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "User not found." },
+        { status: 404 }
+      );
     }
 
+    // Check if the user has already reviewed
+    // const existingReview = component.reviews.find(
+    //   (review:ReviewProps) => review.user._id.toString() === user._id.toString()
+    // );
+
+    // if (existingReview) {
+    //   existingReview.rating = rating;
+    //   existingReview.comment = comment;
+    // } else {
+    //   // Add a new review
+    //   component.reviews.push({
+    //     user: user._id,
+    //     rating,
+    //     comment,
+    //   });
+    // }
+
+    component.reviews.push({
+      user: user._id,
+      rating,
+      comment,
+    });
+
+    // Save the component without re-validating fields
     await component.save({ validateBeforeSave: false });
 
-    return NextResponse.json({
-      success: true,
-      message: "review created successfully",
-    });
-  } catch (error) {
-    return NextResponse.json({
-      success: true,
-      message: "Error while creating review",
-    });
+    return NextResponse.json(
+      { success: true, message: "Review submitted successfully." },
+      { status: 200 }
+    );
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Error while creating review." },
+      { status: 500 }
+    );
   }
 }
