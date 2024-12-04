@@ -55,10 +55,7 @@ const ComponentPage = () => {
     e.preventDefault();
     try {
       setSaveLoading(true);
-      const res = await axios.post(
-        `/api/component/create-review?id=${slug}`,
-        reviewData
-      );
+      await axios.post(`/api/component/create-review?id=${slug}`, reviewData);
       alert("Review created successfully");
       closeReviewDialog();
     } catch (error) {
@@ -165,60 +162,62 @@ const ComponentPage = () => {
   return (
     <div className="md:p-4">
       <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
-        <button
-          onClick={openReviewDialog}
-          className="px-2 py-1 text-sm bg-zinc-600 hover:bg-zinc-700 text-white rounded"
-        >
-          Write Your Thought
-        </button>
-      </div>
-      {isOwner && (
         <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
           <button
-            onClick={openDialog}
+            onClick={openReviewDialog}
             className="px-2 py-1 text-sm bg-zinc-600 hover:bg-zinc-700 text-white rounded"
           >
-            Update
-          </button>
-          <button
-            onClick={handleDelete}
-            disabled={deleteLoading}
-            className={`px-2 py-1 text-sm ${
-              deleteLoading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-red-400 hover:bg-red-500"
-            } text-white rounded`}
-          >
-            {deleteLoading ? (
-              <span className="flex items-center">
-                <svg
-                  className="w-4 h-4 mr-2 animate-spin text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8H4z"
-                  ></path>
-                </svg>
-                Deleting...
-              </span>
-            ) : (
-              "Delete"
-            )}
+            Write Your Thought
           </button>
         </div>
-      )}
+        {isOwner && (
+          <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
+            <button
+              onClick={openDialog}
+              className="px-2 py-1 text-sm bg-zinc-600 hover:bg-zinc-700 text-white rounded"
+            >
+              Update
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={deleteLoading}
+              className={`px-2 py-1 text-sm ${
+                deleteLoading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-red-400 hover:bg-red-500"
+              } text-white rounded`}
+            >
+              {deleteLoading ? (
+                <span className="flex items-center">
+                  <svg
+                    className="w-4 h-4 mr-2 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                  Deleting...
+                </span>
+              ) : (
+                "Delete"
+              )}
+            </button>
+          </div>
+        )}
+      </div>
       {components ? (
         <ComponentsLayout
           userId={components?.owner?._id}
