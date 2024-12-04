@@ -13,19 +13,8 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const handleAuthAction = () => {
-    if (isLoggedIn) {
-      // Perform logout logic (e.g., clearing tokens, calling an API)
-      setIsLoggedIn(false);
-      alert("Logged out successfully!");
-    } else {
-      // Navigate to /auth page for login or sign-up
-      router.push("/auth");
-    }
-  };
-
-  const menuItems = ["Home", "Components", "Example", "Colors"];
+  
+  const menuItems = ["Components", "Example", "Colors" , "Me"];
 
   return (
     <nav className="bg-zinc-950 absolute top-0 w-full border-b-[1px] border-zinc-800 text-white py-4 shadow-lg">
