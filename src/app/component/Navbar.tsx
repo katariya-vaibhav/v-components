@@ -3,12 +3,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

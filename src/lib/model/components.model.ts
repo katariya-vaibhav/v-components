@@ -45,6 +45,23 @@ const componentSchema = new Schema(
     liveCode: {
       type: String,
     },
+    reviews: [
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        rating: {
+          type: Number,
+          required: true,
+        },
+        comment: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true, // Automatically add `createdAt` and `updatedAt`
@@ -52,4 +69,5 @@ const componentSchema = new Schema(
 );
 
 // Create the Component model
-export const Component = mongoose.models.Component || model("Component", componentSchema);
+export const Component =
+  mongoose.models.Component || model("Component", componentSchema);
