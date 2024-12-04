@@ -2,12 +2,27 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { FaGithub } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleAuthAction = () => {
+    if (isLoggedIn) {
+      // Perform logout logic (e.g., clearing tokens, calling an API)
+      setIsLoggedIn(false);
+      alert("Logged out successfully!");
+    } else {
+      // Navigate to /auth page for login or sign-up
+      router.push("/auth");
+    }
   };
 
   const menuItems = ["Home", "Components", "Example", "Colors"];
@@ -65,6 +80,14 @@ const Navbar: React.FC = () => {
               {item}
             </Link>
           ))}
+          <a
+            href="https://github.com/vaibhav-katariya/v-components"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:text-gray-400 transition"
+          >
+            <FaGithub size={24} />
+          </a>
         </div>
       </div>
 

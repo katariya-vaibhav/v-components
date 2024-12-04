@@ -3,6 +3,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ComponentsCard from "../component/ComponentsCard";
+import Link from "next/link";
 
 interface UserProps {
   _id: string;
@@ -75,7 +76,11 @@ const MyProfile = () => {
           </div>
         </div>
       ) : (
-        "User not found"
+        <Link href={"/auth"} className="text-zinc-400">
+            No user found please{" "}
+            <span className="text-white">sign-in</span> /{" "}
+            <span className="text-white">sign-up</span>
+          </Link>
       )}
       <div className="flex gap-3 flex-wrap py-10">
         {currentUser?.components?.length ? (
@@ -90,7 +95,11 @@ const MyProfile = () => {
             />
           ))
         ) : (
-          <p>No components found</p>
+          <Link href={"/auth"} className="text-zinc-400">
+            No components found please{" "}
+            <span className="text-white">sign-in</span> /{" "}
+            <span className="text-white">sign-up</span>
+          </Link>
         )}
       </div>
     </div>
