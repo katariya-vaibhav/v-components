@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ReviewComponent from "@/app/component/comment";
 
 interface ComponentsProps {
   _id: string;
@@ -44,6 +45,28 @@ const ComponentPage = () => {
   const [formImage, setFormImage] = useState<File | null>(null);
   const [formVideo, setFormVideo] = useState<File | null>(null);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
+  const [isOpenReview, setIsOpenReview] = useState(false);
+  const [reviewData, setReviewData] = useState<{
+    comment: string;
+    rating: number;
+  }>({ comment: "", rating: 1 });
+
+  const submitReviewHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setSaveLoading(true);
+      const res = await axios.post(
+        `/api/component/create-review?id=${slug}`,
+        reviewData
+      );
+      alert("Review created successfully");
+      closeReviewDialog();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    } finally {
+      setSaveLoading(false);
+    }
+  };
 
   const fetchComponents = async () => {
     try {
@@ -86,13 +109,10 @@ const ComponentPage = () => {
     }
   };
 
-  const openDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const closeDialog = () => {
-    setIsDialogOpen(false);
-  };
+  const openDialog = () => setIsDialogOpen(true);
+  const closeDialog = () => setIsDialogOpen(false);
+  const openReviewDialog = () => setIsOpenReview(true);
+  const closeReviewDialog = () => setIsOpenReview(false);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,30 +139,20 @@ const ComponentPage = () => {
         }
       );
       alert("Component updated successfully!");
-      setComponents((prev) =>
-        prev
-          ? {
-              ...prev,
-              title: formTitle,
-              description: formDescription,
-              image: formImage ? URL.createObjectURL(formImage) : prev.image,
-              video: formVideo ? URL.createObjectURL(formVideo) : prev.video,
-            }
-          : prev
-      );
+      fetchComponents();
       closeDialog();
     } catch (error) {
       console.error("Error updating component:", error);
       alert("Failed to update component. Please try again.");
     } finally {
-      setSaveLoading(false); // End loading animation
+      setSaveLoading(false);
     }
   };
 
   useEffect(() => {
     fetchComponents();
     fetchCurrentUser();
-  }, []);
+  }, [slug]);
 
   // const isOwner =F
   //   currentUser && components && currentUser?._id === components?.owner._id;
@@ -154,6 +164,14 @@ const ComponentPage = () => {
 
   return (
     <div className="md:p-4">
+      <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
+        <button
+          onClick={openReviewDialog}
+          className="px-2 py-1 text-sm bg-zinc-600 hover:bg-zinc-700 text-white rounded"
+        >
+          Write Your Thought
+        </button>
+      </div>
       {isOwner && (
         <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
           <button
@@ -355,6 +373,102 @@ const ComponentPage = () => {
           </div>
         </div>
       )}
+
+      {isOpenReview && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-zinc-900 border-[1px] border-zinc-700 rounded-lg shadow-lg w-full max-w-md p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold">Add your thought</h3>
+              <button
+                onClick={closeDialog}
+                className="text-zinc-200 hover:text-zinc-300"
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={submitReviewHandler}>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-zinc-400 mb-1">
+                  Write your comment
+                </label>
+                <textarea
+                  value={reviewData.comment}
+                  onChange={(e) =>
+                    setReviewData((prev) => ({
+                      ...prev,
+                      comment: e.target.value,
+                    }))
+                  }
+                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  placeholder="Enter Yout thought..."
+                  rows={4}
+                ></textarea>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-zinc-400 mb-1">
+                  Add ratings
+                </label>
+                <input
+                  type="number"
+                  value={reviewData.rating}
+                  onChange={(e) =>
+                    setReviewData((prev) => ({
+                      ...prev,
+                      rating: parseInt(e.target.value, 10),
+                    }))
+                  }
+                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  placeholder="Enter Yout thought..."
+                  min={1}
+                ></input>
+              </div>
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeReviewDialog}
+                  className="px-4 py-2 text-sm bg-zinc-500 hover:bg-zinc-600 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-sm bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                  {saveLoading ? (
+                    <span className="flex items-center">
+                      <svg
+                        className="w-4 h-4 mr-2 animate-spin text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v8H4z"
+                        ></path>
+                      </svg>
+                      Create...
+                    </span>
+                  ) : (
+                    "Create"
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {components && <ReviewComponent componentId={components?._id} />}
     </div>
   );
 };
