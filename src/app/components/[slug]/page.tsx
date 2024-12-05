@@ -36,7 +36,7 @@ const ComponentPage = () => {
   const router = useRouter();
 
   const [components, setComponents] = useState<ComponentsProps | null>(null);
-  const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserProps>();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formTitle, setFormTitle] = useState("");
@@ -50,20 +50,6 @@ const ComponentPage = () => {
     comment: string;
     rating: number;
   }>({ comment: "", rating: 1 });
-
-  const submitReviewHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      setSaveLoading(true);
-      await axios.post(`/api/component/create-review?id=${slug}`, reviewData);
-      alert("Review created successfully");
-      closeReviewDialog();
-    } catch (error) {
-      console.error("Error submitting review:", error);
-    } finally {
-      setSaveLoading(false);
-    }
-  };
 
   const fetchComponents = async () => {
     try {
@@ -146,13 +132,35 @@ const ComponentPage = () => {
     }
   };
 
+  const submitReviewHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setSaveLoading(true);
+
+      const res = await axios.post(
+        `/api/component/create-review?id=${slug}`,
+        reviewData
+      );
+
+      if (res.data.success === true) {
+        alert("Review created successfully");
+
+        closeReviewDialog();
+      } else {
+        alert("Failed to create review. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setSaveLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchComponents();
     fetchCurrentUser();
   }, [slug]);
-
-  // const isOwner =F
-  //   currentUser && components && currentUser?._id === components?.owner._id;
 
   const isOwner =
     currentUser &&
@@ -162,14 +170,16 @@ const ComponentPage = () => {
   return (
     <div className="md:p-4">
       <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
-        <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
-          <button
-            onClick={openReviewDialog}
-            className="px-2 py-1 text-sm bg-zinc-600 hover:bg-zinc-700 text-white rounded"
-          >
-            Write Your Thought
-          </button>
-        </div>
+        {components && (
+          <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
+            <button
+              onClick={openReviewDialog}
+              className="px-2 py-1 text-sm bg-zinc-600 hover:bg-zinc-700 text-white rounded"
+            >
+              Write Your Thought
+            </button>
+          </div>
+        )}
         {isOwner && (
           <div className="md:mt-4 flex py-3 md:justify-end space-x-4">
             <button
@@ -270,7 +280,7 @@ const ComponentPage = () => {
                   type="text"
                   value={formTitle}
                   onChange={(e) => setFormTitle(e.target.value)}
-                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  className="w-full bg-zinc-800 rounded-md p-2 text-sm"
                   placeholder="Enter component title..."
                 />
               </div>
@@ -285,7 +295,7 @@ const ComponentPage = () => {
                   type="text"
                   value={componentPath}
                   onChange={(e) => setComponentPath(e.target.value)}
-                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  className="w-full bg-zinc-800 rounded-md p-2 text-sm"
                   placeholder="Enter component Path..."
                 />
               </div>
@@ -296,7 +306,7 @@ const ComponentPage = () => {
                 <textarea
                   value={formDescription}
                   onChange={(e) => setFormDescription(e.target.value)}
-                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  className="w-full bg-zinc-800 rounded-md p-2 text-sm"
                   placeholder="Enter component description..."
                   rows={4}
                 ></textarea>
@@ -311,7 +321,7 @@ const ComponentPage = () => {
                   onChange={(e) =>
                     setFormImage(e.target.files ? e.target.files[0] : null)
                   }
-                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  className="w-full bg-zinc-800 rounded-md p-2 text-sm"
                 />
               </div>
               <div className="mb-4">
@@ -324,7 +334,7 @@ const ComponentPage = () => {
                   onChange={(e) =>
                     setFormVideo(e.target.files ? e.target.files[0] : null)
                   }
-                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  className="w-full bg-zinc-800 rounded-md p-2 text-sm"
                 />
               </div>
               <div className="flex justify-end space-x-2">
@@ -379,7 +389,7 @@ const ComponentPage = () => {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold">Add your thought</h3>
               <button
-                onClick={closeDialog}
+                onClick={closeReviewDialog}
                 className="text-zinc-200 hover:text-zinc-300"
               >
                 ✕
@@ -398,7 +408,7 @@ const ComponentPage = () => {
                       comment: e.target.value,
                     }))
                   }
-                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  className="w-full bg-zinc-800 rounded-md p-2 text-sm"
                   placeholder="Enter Yout thought..."
                   rows={4}
                 ></textarea>
@@ -416,9 +426,10 @@ const ComponentPage = () => {
                       rating: parseInt(e.target.value, 10),
                     }))
                   }
-                  className="w-full bg-zinc-700 rounded-md p-2 text-sm"
+                  className="w-full bg-zinc-800 rounded-md p-2 text-sm"
                   placeholder="Enter Yout thought..."
                   min={1}
+                  max={5}
                 ></input>
               </div>
               <div className="flex justify-end space-x-2">
@@ -467,7 +478,12 @@ const ComponentPage = () => {
         </div>
       )}
 
-      {components && <ReviewComponent componentId={components?._id} />}
+      {components && (
+        <ReviewComponent
+          componentId={components?._id}
+          user={currentUser || { _id: "", name: "" }}
+        />
+      )}
     </div>
   );
 };

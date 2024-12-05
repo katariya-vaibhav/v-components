@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
+import Link from "next/link";
 
 interface ReviewProps {
   componentId: string;
+  user: UserProps;
 }
 
 interface Review {
@@ -18,36 +20,23 @@ interface Review {
   rating: number;
 }
 
-interface ComponentResponse {
-  _id: string;
-  reviews: Review[];
-}
-
 interface UserProps {
   _id: string;
   name: string;
 }
 
-const ReviewComponent: React.FC<ReviewProps> = ({ componentId }) => {
+const ReviewComponent: React.FC<ReviewProps> = ({ componentId, user }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
+
   const fetchReviews = async () => {
     try {
-      const { data } = await axios.get<{ component: ComponentResponse }>(
+      const res = await axios.get(
         `/api/component/get-review?id=${componentId}`
       );
-      setReviews(data.component.reviews);
-      console.log(data.component.reviews);
+
+      setReviews(res.data.component.reviews);
     } catch (error) {
       console.log("Error fetching reviews:", error);
-    }
-  };
-  const fetchCurrentUser = async () => {
-    try {
-      const { data } = await axios.get("/api/user/me");
-      setCurrentUser(data.user);
-    } catch (error) {
-      console.error("Error fetching user information:", error);
     }
   };
 
@@ -62,14 +51,13 @@ const ReviewComponent: React.FC<ReviewProps> = ({ componentId }) => {
         console.log("Error deleting review:", res.data.error);
       }
     } catch (error) {
-      console.log("error deleting review", error);
+      console.log("Error deleting review:", error);
     }
   };
 
   useEffect(() => {
-    fetchCurrentUser();
     fetchReviews();
-  }, [componentId]);
+  }, [, componentId]);
 
   return (
     <div className="h-auto mt-5">
@@ -78,23 +66,21 @@ const ReviewComponent: React.FC<ReviewProps> = ({ componentId }) => {
       {reviews.map((review) => (
         <div
           key={review._id}
-          className="py-2 px-2 border-[1px] border-zinc-700 rounded-lg m-2"
+          className="py-2 px-4 relative border-[1px] border-zinc-700 rounded-lg m-2"
         >
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2 items-center">
-              <h2 className="text-lg font-semibold text-zinc-200">
-                {review.user.name}
-              </h2>
-            </div>
-          </div>
-          <h2 className="">{review.comment}</h2>
+          <Link
+            href={`/profile/${review.user._id}`}
+            className="text-lg font-semibold text-zinc-300 break-words"
+          >
+            {review.user.name}
+          </Link>
+          <p className="break-words w-[90%]">{review.comment}</p>
           <p className="text-sm text-zinc-400">{`Rating: ${review.rating}/5`}</p>
-          <div className="flex justify-end">
-            {/* Placeholder delete logic */}
-            {currentUser?._id === review.user._id && (
+          <div className="absolute top-5 right-5">
+            {user?._id === review.user._id && (
               <button
                 onClick={() => ReviewDeleteHandler(componentId, review._id)}
-                className="py-[5px] px-2 bg-zinc-700 rounded-lg"
+                className="py-[5px] px-2 bg-zinc-600 hover:bg-zinc-700 rounded-lg"
               >
                 <MdDelete />
               </button>
