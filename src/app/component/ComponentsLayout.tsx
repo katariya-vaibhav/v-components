@@ -37,11 +37,13 @@ const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
 
   return (
     <div>
-      <Link href={`/profile/${userId}`} className="py-2 cursor-pointer">
-        Created by{" "}
-        <span className="text-zinc-400 font-semibold">{ownerName}</span> |{" "}
-        <span className="text-zinc-400 font-semibold ">{ownerEmail}</span>{" "}
-      </Link>
+      {userId && ownerName && ownerEmail && (
+        <Link href={`/profile/${userId}`} className="py-2 cursor-pointer">
+          Created by{" "}
+          <span className="text-zinc-400 font-semibold">{ownerName}</span> |{" "}
+          <span className="text-zinc-400 font-semibold ">{ownerEmail}</span>{" "}
+        </Link>
+      )}
       <h2 className="font-bold text-3xl">{componentTitle}</h2>
       <p className="text-zinc-500 text-md">{componentDescription}</p>
 

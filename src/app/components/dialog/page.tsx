@@ -124,7 +124,7 @@ const DialogDemo = () => {
 const DialogComponentLayout = () => {
   const codeSnippet = `
 import React, { useState } from 'react';
-import { Dialog } from '@/components/Dialog';
+import { Dialog } from '@/components/Dialog/Dialog';
 
 const DialogDemo = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -250,7 +250,7 @@ const Dialog: React.FC<DialogProps> = ({
   );
 };
 
-export default Dialog;
+export { Dialog }
 
 `;
 

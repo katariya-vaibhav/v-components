@@ -99,7 +99,7 @@ const InputDemo = () => {
 const InputComponentLayout = () => {
   const codeSnippet = `
 import React, { useState } from 'react';
-import { Input } from '@/components/Input';
+import { Input } from '@/components/Input/input';
 
 const InputDemo = () => {
   const [name, setName] = useState("");

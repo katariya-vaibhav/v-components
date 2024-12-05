@@ -49,7 +49,7 @@ const BadgeDemo = () => {
 const BadgeComponentLayout = () => {
   const codeSnippet = `
 import React from 'react';
-import { Badge } from '@/components/Badge';
+import { Badge } from '@/components/Badge/Badge';
 
 const BadgeDemo = () => {
   return (

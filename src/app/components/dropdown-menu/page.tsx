@@ -94,39 +94,39 @@ const DropdownDemo = () => {
 };
 
 const componentCode = `
-// @/components/DropdownMenu
+// @/components/DropdownMenu/DropdownMenu.tsx
+
 import React, { useState } from "react";
 
 interface DropdownMenuProps {
   buttonText: string;
   buttonStyles?: string;
-  children?: React.ReactNode;
+  children?: React.ReactNode; // Explicitly type 'children'
 }
 
-interface DropdownMenuBtnGroup {
+interface DropdownMenuOptionGroupProps {
   options: string[];
   onSelect: (option: string) => void;
   menuLabel?: string;
 }
 
-const DropDownStyles = {
-  menuLabel:
-    "px-4 py-2 border-b-[1px] border-t-[1px] border-zinc-700 text-white font-bold",
-  buttonStyle:
-    "px-4 py-2 bg-zinc-600 overflow-hidden text-white rounded-md hover:bg-zinc-700",
-  menuItemStyle:
-    "px-4 py-2 text-white rounded-md hover:bg-zinc-800 cursor-pointer",
-};
-
 // DropdownMenuOptionGroup Component
-const DropdownMenuOptionGroup = ({ options, onSelect, menuLabel }) => {
-  const handleSelect = (option) => {
+const DropdownMenuOptionGroup: React.FC<DropdownMenuOptionGroupProps> = ({
+  options,
+  onSelect,
+  menuLabel,
+}) => {
+  const handleSelect = (option: string) => {
     onSelect(option);
   };
 
   return (
     <ul className="text-gray-700">
-      {menuLabel && <p className="px-4 py-2 border-b-[1px] border-t-[1px] border-zinc-700 text-white font-bold">{menuLabel}</p>}
+      {menuLabel && (
+        <p className="px-4 py-2 border-b-[1px] border-t-[1px] border-zinc-700 text-white font-bold">
+          {menuLabel}
+        </p>
+      )}
       {options.map((option) => (
         <li
           key={option}
@@ -141,7 +141,7 @@ const DropdownMenuOptionGroup = ({ options, onSelect, menuLabel }) => {
 };
 
 // DropdownMenu Component
-const DropdownMenu = ({ buttonText, children }) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ buttonText, children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -162,12 +162,13 @@ const DropdownMenu = ({ buttonText, children }) => {
   );
 };
 
-export {DropdownMenu , DropdownMenuOptionGroup}
+export { DropdownMenu, DropdownMenuOptionGroup };
+
 `;
 
 const codeSnippet = `
 import React from "react";
-import { DropdownMenu  , DropdownMenuOptionGroup } from '@/components/DropdownMenu';
+import { DropdownMenu  , DropdownMenuOptionGroup } from '@/components/DropdownMenu/DropdownMenu';
 
 const DropdownDemo = () => {
   const handleSelection = (selectedOption: string) => {

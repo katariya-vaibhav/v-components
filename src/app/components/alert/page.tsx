@@ -21,7 +21,7 @@ const AlertDemo = () => {
 const AlertLayout = () => {
   const codeSnippet = `
   import React from 'react';
-  import { AlertBody } from '@/components/alert';
+  import { AlertBody } from '@/components/alert/page';
   
   const AlertDemo = () => (
     <div className="flex items-center justify-center">

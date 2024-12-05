@@ -66,7 +66,7 @@ const CheckboxDemo = () => {
 const CheckboxComponentLayout = () => {
   const codeSnippet = `
 import React, { useState } from 'react';
-import { Checkbox } from '@/components/Checkbox';
+import { Checkbox } from '@/components/Checkbox/Checkbox';
 
 const CheckboxDemo = () => {
   const [termsChecked, setTermsChecked] = useState(false);

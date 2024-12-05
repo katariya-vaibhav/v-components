@@ -114,7 +114,7 @@ const ButtonDemo = () => {
 const ButtonComponentLayout = () => {
   const codeSnippet = `
 import React from 'react';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/Button/Button';
 
 const ButtonDemo = () => {
   return (
