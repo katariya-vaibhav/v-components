@@ -9,7 +9,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar />
           
         </div>
-        <div className="p-3 h-[90vh] w-full md:w-[80%] overflow-auto scrollbar">{children}</div>
+        <div className="p-3 h-[90vh] w-full  overflow-auto scrollbar">{children}</div>
       </div>
     </>
   );

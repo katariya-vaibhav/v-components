@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
       .select("reviews")
       .populate({
         path: "reviews",
+      options:{sort:{createdAt : -1}},
         populate: {
           path: "user",
           select: "name",

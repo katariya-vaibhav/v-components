@@ -96,9 +96,7 @@ const MyProfile = () => {
           ))
         ) : (
           <Link href={"/auth"} className="text-zinc-400">
-            No components found please{" "}
-            <span className="text-white">sign-in</span> /{" "}
-            <span className="text-white">sign-up</span>
+            No components found
           </Link>
         )}
       </div>

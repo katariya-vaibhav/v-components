@@ -1,5 +1,27 @@
 import mongoose, { Schema, model } from "mongoose";
 
+// Define the Review sub-schema
+const reviewSchema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+    },
+    comment: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true, // Automatically add `createdAt` and `updatedAt` for reviews
+  }
+);
+
 // Define the Component schema
 const componentSchema = new Schema(
   {
@@ -45,26 +67,10 @@ const componentSchema = new Schema(
     liveCode: {
       type: String,
     },
-    reviews: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        rating: {
-          type: Number,
-          required: true,
-        },
-        comment: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    reviews: [reviewSchema], // Embed the review schema
   },
   {
-    timestamps: true, // Automatically add `createdAt` and `updatedAt`
+    timestamps: true, // Automatically add `createdAt` and `updatedAt` for components
   }
 );
 

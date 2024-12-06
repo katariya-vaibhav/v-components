@@ -12,7 +12,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 connect();
 
-
 function extractPublicId(url: string): string {
   const parts = url.split("/");
   const fileWithExtension = parts[parts.length - 1];
@@ -20,7 +19,20 @@ function extractPublicId(url: string): string {
   return `${parts[parts.length - 2]}/${publicId}`;
 }
 
-export async function PUT(request: NextRequest) {
+interface UpdateFields {
+  title?: string;
+  description?: string;
+  type?: string;
+  liveCode?: string;
+  componentPath?: string;
+  codeSnippet?: string;
+  componentCode?: string;
+  componentsUses?: string;
+  image?: string;
+  video?: string;
+}
+
+export async function PATCH(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
     const id = searchParams.get("id");
@@ -32,15 +44,32 @@ export async function PUT(request: NextRequest) {
 
     const formData = await request.formData();
 
-    // Extract component data
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-    const type = formData.get("type") as string;
-    const liveCode = formData.get("liveCode") as string | undefined;
-    const componentPath = formData.get("componentPath") as string;
-    const codeSnippet = formData.get("codeSnippet") as string;
-    const componentCode = formData.get("componentCode") as string;
-    const componentsUses = formData.get("componentsUses") as string;
+    // Define the fields to update
+    const fieldsToUpdate: UpdateFields = {};
+
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const type = formData.get("type");
+    const liveCode = formData.get("liveCode");
+    const componentPath = formData.get("componentPath");
+    const codeSnippet = formData.get("codeSnippet");
+    const componentCode = formData.get("componentCode");
+    const componentsUses = formData.get("componentsUses");
+
+    // Add fields to the update object only if they are not null
+    if (typeof title === "string") fieldsToUpdate.title = title;
+    if (typeof description === "string")
+      fieldsToUpdate.description = description;
+    if (typeof type === "string") fieldsToUpdate.type = type;
+    if (typeof liveCode === "string") fieldsToUpdate.liveCode = liveCode;
+    if (typeof componentPath === "string")
+      fieldsToUpdate.componentPath = componentPath;
+    if (typeof codeSnippet === "string")
+      fieldsToUpdate.codeSnippet = codeSnippet;
+    if (typeof componentCode === "string")
+      fieldsToUpdate.componentCode = componentCode;
+    if (typeof componentsUses === "string")
+      fieldsToUpdate.componentsUses = componentsUses;
 
     // Extract files
     const imageFile = formData.get("image") as File | null;
@@ -68,42 +97,29 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update image
-    let imageUrl = component.image;
     if (imageFile) {
       if (component.image) {
-        const imagePublicId = extractPublicId(component.image)
-        await deleteFileFromCloudinary(imagePublicId , "image");
+        const imagePublicId = extractPublicId(component.image);
+        await deleteFileFromCloudinary(imagePublicId, "image");
       }
       const buffer = Buffer.from(await imageFile.arrayBuffer());
-      imageUrl = await uploadFileToCloudinary(buffer, "image");
+      fieldsToUpdate.image = await uploadFileToCloudinary(buffer, "image");
     }
 
     // Update video
-    let videoUrl = component.video;
     if (videoFile) {
       if (component.video) {
-        const videoPublicId = extractPublicId(component.video)
-        await deleteFileFromCloudinary(videoPublicId , "image");
+        const videoPublicId = extractPublicId(component.video);
+        await deleteFileFromCloudinary(videoPublicId, "video");
       }
       const buffer = Buffer.from(await videoFile.arrayBuffer());
-      videoUrl = await uploadFileToCloudinary(buffer, "video");
+      fieldsToUpdate.video = await uploadFileToCloudinary(buffer, "video");
     }
 
-    // Update the component in the database
+    // Update only the provided fields in the database
     const updatedComponent = await Component.findByIdAndUpdate(
       id,
-      {
-        title,
-        description,
-        type,
-        liveCode,
-        componentPath,
-        codeSnippet,
-        componentCode,
-        componentsUses,
-        image: imageUrl,
-        video: videoUrl,
-      },
+      { $set: fieldsToUpdate },
       { new: true }
     );
 

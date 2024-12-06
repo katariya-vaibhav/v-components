@@ -68,7 +68,7 @@ const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
         </div>
 
         <div className="border-[1px] border-zinc-800 text-white rounded-lg w-full">
-          <div className="p-4 h-[25rem] overflow-auto scrollbar">
+          <div className="p-4 h-[25rem]  overflow-auto scrollbar">
             {showCode ? (
               <CodeSnippet code={codeSnippet} />
             ) : (
@@ -82,7 +82,7 @@ const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({
                     width={500}
                     height={500}
                     layout="intrinsic"
-                    className="rounded-lg"
+                    className="rounded-lg mix-blend-difference"
                   />
                 ) : previewVideo ? (
                   <video controls className="rounded-md h-[300px] w-full">
