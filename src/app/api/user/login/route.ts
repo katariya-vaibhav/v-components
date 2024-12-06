@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import { connect } from "@/lib/db/db.connection";
 import { User } from "@/lib/model/user.model";
 import { NextRequest, NextResponse } from "next/server";
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       });
     }
     const token = jwt.sign({ userId: user._id }, process.env.jwt_secret!, {
-      expiresIn: currentDate + 7,
+      expiresIn: "365d",
     });
 
     const res = NextResponse.json({
@@ -54,8 +54,8 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-      expires: new Date(currentDate + 7),
+      maxAge: 60 * 60 * 24 * 365,
+      expires: new Date(currentDate + 60 * 60 * 24 * 365 * 1000),
     });
     return res;
   } catch (error) {
