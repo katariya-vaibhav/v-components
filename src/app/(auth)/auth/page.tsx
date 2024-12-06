@@ -33,16 +33,34 @@ const AuthForm = () => {
     try {
       const response = await axios.post(endpoint, payload);
 
-      console.log(response);
+      if (response.data.status === 409) {
+        alert("all fields are required");
+        return;
+      }
 
-      alert(
-        isLogin ? "Logged in successfully!" : "Account created successfully!"
-      );
+      if (response.data.status === 500) {
+        alert("Error : Check your credentials and try again");
+        return;
+      }
 
-      if (isLogin) {
-        router.push("/"); // Redirect to home page after login
-      } else {
-        router.push("/auth"); // Redirect to login page after signup
+      if (response.data.status === 200) {
+        alert("successfully logged in");
+        router.push("/components");
+      }
+
+      if (response.data.status === 401) {
+        alert("invalid credentials");
+        return;
+      }
+
+      if (response.data.status === 201) {
+        alert("user created successfully");
+        router.push("/auth");
+      }
+
+      if (response.data.status === 409) {
+        alert("user already exists");
+        return;
       }
     } catch {
       setErrorMessage("An error occurred. Please try again.");
