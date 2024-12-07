@@ -64,7 +64,8 @@ const MyProfile = () => {
             <h2 className="text-xl py-2">
               Hello, {currentUser.name} welcome to your profile
             </h2>
-            <p>Email: {currentUser.email}</p>
+            <p className="mb-4">Email: {currentUser.email}</p>
+            <Link href={`/create-component`} className="bg-zinc-600 hover:bg-zinc-700 rounded-md py-2 px-3">Create component</Link>
           </div>
           <div>
             <button
