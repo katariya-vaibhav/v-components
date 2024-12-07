@@ -259,7 +259,7 @@ const ComponentPage = () => {
               previewVideo={components?.video || null}
             />
           ) : (
-            <p className="text-zinc-500">No components found.</p>
+            <p className="text-zinc-500">Loading... component please wait few seconds</p>
           )}
 
           {/* Dialog Component */}
