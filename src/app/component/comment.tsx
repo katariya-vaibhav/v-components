@@ -57,7 +57,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({ componentId, user }) => {
 
   useEffect(() => {
     fetchReviews();
-  }, [, componentId]);
+  }, []);
 
   return (
     <div className="h-auto mt-5">

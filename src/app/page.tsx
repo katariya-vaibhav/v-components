@@ -94,7 +94,7 @@ export default function Home() {
         >
           <div className="flex flex-wrap gap-4 p-6">
             {reviews.map((review) => (
-              <SwiperSlide>
+              <SwiperSlide key={review.id}>
                 <ReviewCard
                   key={review.id}
                   username={review.username}

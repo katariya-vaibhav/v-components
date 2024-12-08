@@ -44,7 +44,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (id) fetchCurrentUser();
-  }, [id]);
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;

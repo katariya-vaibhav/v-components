@@ -161,7 +161,7 @@ const ComponentPage = () => {
   useEffect(() => {
     fetchComponents();
     fetchCurrentUser();
-  }, [slug]);
+  }, []);
 
   const isOwner =
     currentUser &&
@@ -259,7 +259,9 @@ const ComponentPage = () => {
               previewVideo={components?.video || null}
             />
           ) : (
-            <p className="text-zinc-500">Loading... component please wait few seconds</p>
+            <p className="text-zinc-500">
+              Loading... component please wait few seconds
+            </p>
           )}
 
           {/* Dialog Component */}
@@ -318,8 +320,6 @@ const ComponentPage = () => {
                       rows={4}
                     ></textarea>
                   </div>
-
-                  
 
                   <div className="mb-4">
                     <label className="block text-sm font-medium text-zinc-400 mb-1">
