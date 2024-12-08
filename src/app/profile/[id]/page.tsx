@@ -3,7 +3,7 @@
 import ComponentsCard from "@/app/component/ComponentsCard";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 interface ComponentProps {
   _id: string;
@@ -31,7 +31,9 @@ const UserProfile = () => {
   const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchCurrentUser = async () => {
+  // Use useCallback to memoize the fetchCurrentUser function
+  const fetchCurrentUser = useCallback(async () => {
+    if (!id) return;
     try {
       const { data } = await axios.get(`/api/user/get-user?id=${id}`);
       setCurrentUser(data.user);
@@ -40,11 +42,11 @@ const UserProfile = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
-    if (id) fetchCurrentUser();
-  }, []);
+    fetchCurrentUser();
+  }, [fetchCurrentUser]);
 
   if (loading) {
     return <div>Loading...</div>;

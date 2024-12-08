@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ReviewCard } from "./component/ReviewCard";
+import Link from "next/link";
 
 export default function Home() {
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
@@ -69,16 +70,22 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-zinc-900 text-zinc-50 font-sans">
+    <div className=" text-zinc-50 font-sans">
       <main className="container mx-auto px-6 py-10">
         <section className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
-            Welcome to V-Components/UI
+            Welcome to V-Components/ui
           </h2>
           <p className="text-lg text-zinc-300">
             Build stunning interfaces with our highly customizable and intuitive
             components.
           </p>
+          <p className="text-zinc-300 mb-6">
+            v-components/ui is an open-source React/next js component library
+          </p>
+          <button className="bg-zinc-600 hover:bg-zinc-700 py-2 px-3 rounded-md font-semibold">
+            <Link href="/components">Get Started</Link>
+          </button>
         </section>
 
         <Swiper
@@ -106,12 +113,13 @@ export default function Home() {
           </div>
         </Swiper>
 
-        <section className="text-center mb-12">
+        <section className="text-center my-7">
           <h3 className="text-2xl font-bold mb-4">Your Feedback Matters</h3>
           <p className="text-zinc-300 mb-6">
-            Help us make V-Components/UI even better. Share your thoughts and
+            Help us make V-components/ui even better. Share your thoughts and
             suggestions!
           </p>
+
           <button
             className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition"
             aria-label="Create Feedback"
