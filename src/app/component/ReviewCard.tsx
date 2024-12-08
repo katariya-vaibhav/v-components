@@ -9,12 +9,12 @@ interface ReviewProps {
 
 const ReviewCard = ({ username, feedback, onDelete }: ReviewProps) => {
   return (
-    <div className="bg-zinc-800 text-zinc-50 h-full  p-4 relative shadow-md w-full">
-      <h4 className="text-lg font-semibold mb-2">{username}</h4>
-      <p className="text-zinc-400 text-sm mb-4">{feedback}</p>
+    <div className="bg-zinc-800 flex flex-col items-center justify-center text-zinc-50 h-full  p-4 relative shadow-md w-full">
+      <h4 className="text-lg md:text-xl font-semibold mb-2">{username} says , </h4>
+      <p className="text-zinc-400 text-sm mb-4 break-words w-full min-h-[15vh] scrollbar overflow-y-auto">{feedback}</p>
       <button
         onClick={onDelete}
-        className="py-[5px] px-2 bg-zinc-600 absolute bottom-5 right-10 hover:bg-zinc-700 rounded-lg"
+        className="py-[5px] px-2 bg-zinc-600 absolute top-5 right-10 hover:bg-zinc-700 rounded-lg"
       >
         <MdDelete />
       </button>

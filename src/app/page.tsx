@@ -9,63 +9,90 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ReviewCard } from "./component/ReviewCard";
 import Link from "next/link";
 
+interface FeedbackProps {
+  _id: number;
+  feedback: string;
+  user: {
+    _id: string;
+    name: string;
+  };
+}
+
 export default function Home() {
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showDialog, setShowDialog] = useState(false);
+  const [reviews, setReviews] = useState<FeedbackProps[]>();
+  const [saveLoading, setSaveLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const [reviews, setReviews] = useState([
-    {
-      id: 1,
-      username: "John Doe",
-      feedback: "Great library! Highly recommend.",
-    },
-    {
-      id: 2,
-      username: "Jane Smith",
-      feedback: "Very customizable and intuitive.",
-    },
-  ]);
+  const handleDelete = async (id: number) => {
+    try {
+      const res = await axios.delete(`/api/feedback/delete-feedback?id=${id}`);
 
-  const handleDelete = (id: number) => {
-    setReviews(reviews.filter((review) => review.id !== id));
+      if (res.data.success) {
+        alert(res.data.message);
+        fetchAllFeedback();
+      }
+    } catch {
+      alert("Error deleting feedback");
+    }
+  };
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get("/api/user/me");
+
+      if (response.data.success) {
+        setIsUserSignedIn(true);
+      } else {
+        setIsUserSignedIn(false);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setIsUserSignedIn(false);
+    }
+  };
+
+  const fetchAllFeedback = async () => {
+    try {
+      const res = await axios.get("/api/feedback/get-feedback");
+      setReviews(res.data);
+    } catch {
+      alert("Error fetching feedback:");
+    }
   };
 
   useEffect(() => {
-    async function fetchUser() {
-      try {
-        const response = await axios.get("/api/user/me");
-        if (response.status === 200) {
-          setIsUserSignedIn(true);
-        } else {
-          setIsUserSignedIn(false);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setIsUserSignedIn(false);
-      }
-    }
     fetchUser();
+    fetchAllFeedback();
   }, []);
 
-  const handleFeedbackSubmit = async () => {
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!isUserSignedIn) {
       router.push("/auth");
       return;
     }
 
     try {
+      setSaveLoading(true);
+
       const res = await axios.post("/api/feedback/create-feedback", {
         feedback,
       });
-      console.log(res.data);
 
-      console.log("Feedback submitted:", feedback);
-      setFeedback("");
+      if (res.data.status === 201) {
+        alert("feedback submitted");
+        setFeedback("");
+        console.log("Feedback submitted:", feedback);
+        fetchAllFeedback();
+      }
       setShowDialog(false);
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
+    } catch {
+      alert("Error while submitting feedback:");
+    } finally {
+      setSaveLoading(false);
     }
   };
 
@@ -88,30 +115,34 @@ export default function Home() {
           </button>
         </section>
 
-        <Swiper
-          direction={"vertical"}
-          slidesPerView={1}
-          spaceBetween={30}
-          mousewheel={true}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Mousewheel, Pagination]}
-          className="feedback"
-        >
-          <div className="flex flex-wrap gap-4 p-6">
-            {reviews.map((review) => (
-              <SwiperSlide key={review.id}>
-                <ReviewCard
-                  key={review.id}
-                  username={review.username}
-                  feedback={review.feedback}
-                  onDelete={() => handleDelete(review.id)}
-                />
-              </SwiperSlide>
-            ))}
-          </div>
-        </Swiper>
+        {reviews ? (
+          <Swiper
+            direction={"vertical"}
+            slidesPerView={1}
+            spaceBetween={30}
+            mousewheel={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Mousewheel, Pagination]}
+            className="feedback"
+          >
+            <div className="flex flex-wrap gap-4 p-6">
+              {reviews?.map((review) => (
+                <SwiperSlide key={review._id}>
+                  <ReviewCard
+                    key={review._id}
+                    username={review.user.name}
+                    feedback={review.feedback}
+                    onDelete={() => handleDelete(review._id)}
+                  />
+                </SwiperSlide>
+              ))}
+            </div>
+          </Swiper>
+        ) : (
+          <p className="text-center">loading...</p>
+        )}
 
         <section className="text-center my-7">
           <h3 className="text-2xl font-bold mb-4">Your Feedback Matters</h3>
@@ -130,32 +161,73 @@ export default function Home() {
         </section>
 
         {showDialog && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-zinc-800 p-6 rounded-lg shadow-lg w-96">
-              <h3 className="text-xl font-bold text-zinc-50 mb-4">
-                Submit Feedback
-              </h3>
-              <textarea
-                className="w-full p-3 bg-zinc-700 text-zinc-50 rounded-lg mb-4 resize-none"
-                rows={4}
-                placeholder="Write your feedback here..."
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-              ></textarea>
-              <div className="flex justify-end space-x-4">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-zinc-900 border-[1px] border-zinc-700 rounded-lg shadow-lg w-full max-w-md p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold">Add your feedback</h3>
                 <button
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
                   onClick={() => setShowDialog(false)}
+                  className="text-zinc-200 hover:text-zinc-300"
                 >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                  onClick={handleFeedbackSubmit}
-                >
-                  Submit
+                  ✕
                 </button>
               </div>
+              <form onSubmit={handleFeedbackSubmit}>
+                <div className="mb-2">
+                  <label className="block text-sm font-medium text-zinc-400 mb-1">
+                    Write your feedback here
+                  </label>
+                  <textarea
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    className="w-full bg-zinc-800 rounded-md p-2 text-sm"
+                    placeholder="Enter Yout thought..."
+                    rows={4}
+                  ></textarea>
+                </div>
+                
+                <div className="flex justify-end space-x-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowDialog(false)}
+                    className="px-4 py-2 text-sm bg-zinc-500 hover:bg-zinc-600 rounded"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 text-sm bg-green-500 text-white rounded hover:bg-green-600"
+                  >
+                    {saveLoading ? (
+                      <span className="flex items-center">
+                        <svg
+                          className="w-4 h-4 mr-2 animate-spin text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8H4z"
+                          ></path>
+                        </svg>
+                        Create...
+                      </span>
+                    ) : (
+                      "Create"
+                    )}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

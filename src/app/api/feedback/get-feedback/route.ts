@@ -8,7 +8,10 @@ connect();
 
 export async function GET() {
   try {
-    const feedback = await Feedback.find();
+    const feedback = await Feedback.find().populate({
+      path: "user",
+      select: "name",
+    });
 
     if (!feedback || feedback.length === 0) {
       return NextResponse.json({
