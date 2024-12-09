@@ -116,7 +116,7 @@ export default function Home() {
           </button>
         </section>
 
-        {reviews ? (
+        {reviews && reviews.length > 0 ? (
           <Swiper
             direction={"vertical"}
             slidesPerView={1}
