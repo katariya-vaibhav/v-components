@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -22,7 +23,7 @@ export default function Home() {
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showDialog, setShowDialog] = useState(false);
-  const [reviews, setReviews] = useState<FeedbackProps[]>();
+  const [reviews, setReviews] = useState<FeedbackProps[]>([]);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -129,7 +130,7 @@ export default function Home() {
           >
             <div className="flex flex-wrap gap-4 p-6">
               {reviews?.map((review) => (
-                <SwiperSlide key={review._id}>
+                <SwiperSlide key={`slide-${review._id}`}>
                   <ReviewCard
                     key={review._id}
                     username={review.user.name}
