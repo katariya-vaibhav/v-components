@@ -6,21 +6,20 @@ import tailwindColors from "tailwindcss/colors";
 
 // Define the color palette type
 type TailwindColors = {
-  [key: string]: number[];
+  [key: string]: string[]; // Make shades an array of strings for valid keys
 };
 
-// Extended color palette
 const colors: TailwindColors = {
-  gray: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  red: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  blue: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  green: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  zinc: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  yellow: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  purple: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  indigo: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  teal: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-  pink: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+  gray: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  red: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  blue: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  green: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  zinc: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  yellow: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  purple: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  indigo: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  teal: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  pink: ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
 };
 
 export default function Colors() {
@@ -34,9 +33,9 @@ export default function Colors() {
   };
 
   // Get the HEX value of a color
-  const getColorHex = (color: string, shade: number): string => {
-    const colorObject = (tailwindColors as Record<string, any>)[color];
-    return colorObject?.[shade] || "#000";
+  const getColorHex = (color: keyof typeof tailwindColors, shade: string): string => {
+    const colorObject = tailwindColors[color];
+    return colorObject[shade as keyof typeof colorObject] || "#000"; // Safe lookup with string keys
   };
 
   // Calculate luminance to determine text color
@@ -70,7 +69,7 @@ export default function Colors() {
           {Object.entries(colors).map(([color, shades]) =>
             shades.map((shade) => {
               const tailwindColor = `${color}-${shade}`;
-              const hex = getColorHex(color, shade);
+              const hex = getColorHex(color as keyof typeof tailwindColors, shade);
               const textColor = getTextColor(hex);
               return (
                 <div
