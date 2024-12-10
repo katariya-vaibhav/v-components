@@ -142,7 +142,7 @@ export default function Home() {
             </div>
           </Swiper>
         ) : (
-          <p className="text-center">loading...</p>
+          <p className="text-center">loading... Feedback</p>
         )}
 
         <section className="text-center my-7">

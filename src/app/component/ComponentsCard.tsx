@@ -30,7 +30,7 @@ const ComponentsCard: React.FC<ComponentCardProps> = ({
             <Image
               src={image}
               alt={title}
-              className="w-full rounded-sm h-full object-center"
+              className="w-full rounded-sm h-full object-cover"
               width={300}
               height={300}
             />
