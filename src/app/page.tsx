@@ -25,6 +25,7 @@ export default function Home() {
   const [showDialog, setShowDialog] = useState(false);
   const [reviews, setReviews] = useState<FeedbackProps[]>([]);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
+  const [currentUserId, setCurrentUserId] = useState<string>("");
   const router = useRouter();
 
   const handleDelete = async (id: number) => {
@@ -46,6 +47,7 @@ export default function Home() {
 
       if (response.data.success) {
         setIsUserSignedIn(true);
+        setCurrentUserId(response.data.user._id);
       } else {
         setIsUserSignedIn(false);
       }
@@ -134,6 +136,8 @@ export default function Home() {
                   <ReviewCard
                     key={review._id}
                     username={review.user.name}
+                    feedbackId={review.user._id}
+                    userId={currentUserId}
                     feedback={review.feedback}
                     onDelete={() => handleDelete(review._id)}
                   />
@@ -186,7 +190,7 @@ export default function Home() {
                     rows={4}
                   ></textarea>
                 </div>
-                
+
                 <div className="flex justify-end space-x-2">
                   <button
                     type="button"
