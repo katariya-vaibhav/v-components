@@ -1,6 +1,8 @@
 "use client";
+
 import Head from "next/head";
 import { useState } from "react";
+import tailwindColors from "tailwindcss/colors";
 
 // Define the color palette type
 type TailwindColors = {
@@ -33,9 +35,8 @@ export default function Colors() {
 
   // Get the HEX value of a color
   const getColorHex = (color: string, shade: number): string => {
-    // Dynamically fetch Tailwind colors
-    const tailwindColors = require("tailwindcss/colors");
-    return tailwindColors[color]?.[shade] || "#000";
+    const colorObject = (tailwindColors as Record<string, any>)[color];
+    return colorObject?.[shade] || "#000";
   };
 
   // Calculate luminance to determine text color
