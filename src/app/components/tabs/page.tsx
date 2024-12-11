@@ -76,7 +76,7 @@ const TabsDemo = () => {
   );
 };
 
-const SliderComponentLayout = () => {
+const TabsComponentLayout = () => {
   const codeSnippet = `
   import React, { useState } from "react";
   import { Tabs } from '@/components/tabs/tabs';
@@ -176,4 +176,4 @@ const Tabs: React.FC<TabsProps> = ({
   );
 };
 
-export default SliderComponentLayout;
+export default TabsComponentLayout;
