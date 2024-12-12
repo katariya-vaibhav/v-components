@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import useUserData from "@/utils/getUserData";
 
 const CreateComponent = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +22,13 @@ const CreateComponent = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const router = useRouter();
+
+  const { isUserSignedIn, loading } = useUserData();
+
+
+  if (!loading && !isUserSignedIn) {
+    router.push("/auth");
+  }
 
   useEffect(() => {
     // Clean up preview URL when component unmounts or media changes
@@ -104,7 +112,6 @@ const CreateComponent = () => {
 
       const result = response.data;
       console.log(result);
-      
 
       if (result.status === 201) {
         // Redirect to the preview page after successful creation
@@ -129,7 +136,10 @@ const CreateComponent = () => {
         {errorMessage && (
           <p className="text-red-500 text-center mb-4">{errorMessage}</p>
         )}
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           <div>
             <label className="block text-sm font-medium text-zinc-400 mb-2">
               Component Title
@@ -246,8 +256,6 @@ const CreateComponent = () => {
               required
             />
           </div>
-
-          
 
           <div className="col-span-2 flex justify-between">
             <button

@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ReviewComponent from "@/app/component/comment";
+import useUserData from "@/utils/getUserData";
 
 interface ComponentsProps {
   _id: string;
@@ -26,17 +27,11 @@ interface ComponentsProps {
   video?: string;
 }
 
-interface UserProps {
-  _id: string;
-  name: string;
-}
-
 const ComponentPage = () => {
   const { slug } = useParams();
   const router = useRouter();
 
   const [components, setComponents] = useState<ComponentsProps | null>(null);
-  const [currentUser, setCurrentUser] = useState<UserProps>();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formTitle, setFormTitle] = useState("");
@@ -52,6 +47,8 @@ const ComponentPage = () => {
     rating: number;
   }>({ comment: "", rating: 1 });
 
+  const { user } = useUserData();
+
   const fetchComponents = async () => {
     try {
       const { data } = await axios.get(
@@ -63,15 +60,6 @@ const ComponentPage = () => {
       setComponentPath(data.components?.componentPath || "");
     } catch (error) {
       console.error("Error fetching components:", error);
-    }
-  };
-
-  const fetchCurrentUser = async () => {
-    try {
-      const { data } = await axios.get("/api/user/me");
-      setCurrentUser(data.user);
-    } catch (error) {
-      console.error("Error fetching user information:", error);
     }
   };
 
@@ -160,13 +148,10 @@ const ComponentPage = () => {
 
   useEffect(() => {
     fetchComponents();
-    fetchCurrentUser();
   }, []);
 
   const isOwner =
-    currentUser &&
-    components?.owner &&
-    currentUser?._id === components.owner._id;
+    user && components?.owner && user?._id === components.owner._id;
 
   return (
     <div className="md:p-4">
@@ -492,7 +477,7 @@ const ComponentPage = () => {
           {components && (
             <ReviewComponent
               componentId={components?._id}
-              user={currentUser || { _id: "", name: "" }}
+              user={user || { _id: "", name: "" }}
             />
           )}
         </div>
