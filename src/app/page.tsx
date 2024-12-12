@@ -21,12 +21,10 @@ interface FeedbackProps {
 }
 
 export default function Home() {
-  // const [isUserSignedIn, setIsUserSignedIn] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showDialog, setShowDialog] = useState(false);
   const [reviews, setReviews] = useState<FeedbackProps[]>([]);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
-  // const [currentUserId, setCurrentUserId] = useState<string>("");
   const router = useRouter();
 
   const { currentUserId, isUserSignedIn } = useUserData();
@@ -44,21 +42,6 @@ export default function Home() {
     }
   };
 
-  // const fetchUser = async () => {
-  //   try {
-  //     const response = await axios.get("/api/user/me");
-
-  //     if (response.data.success) {
-  //       setIsUserSignedIn(true);
-  //       setCurrentUserId(response.data.user._id);
-  //     } else {
-  //       setIsUserSignedIn(false);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching user data:", error);
-  //     setIsUserSignedIn(false);
-  //   }
-  // };
 
   const fetchAllFeedback = async () => {
     try {
@@ -70,7 +53,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // fetchUser();
     fetchAllFeedback();
   }, []);
 
