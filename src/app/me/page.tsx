@@ -20,58 +20,79 @@ const MyProfile = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="w-full min-h-[80vh] md:p-4  overflow-auto">
+    <div className="w-full min-h-[80vh] md:p-6">
       {user ? (
-        <div className="flex border-b-[1px] pb-5 border-zinc-700 justify-between items-center">
-          <div>
-            <h2 className="text-xl py-2">
-              Hello, {user.name} welcome to your profile
-            </h2>
-            <p className="mb-4">Email: {user.email}</p>
-            <Link
-              href={`/create-component`}
-              className="bg-zinc-600 hover:bg-zinc-700 rounded-md py-2 px-3"
-            >
-              Create component
-            </Link>
-          </div>
-          <div>
+        <>
+          {/* Profile Header */}
+          <div className="flex flex-col md:flex-row justify-between border-b border-zinc-700 pb-6">
+            <div>
+              <h2 className="text-2xl font-bold mb-2">
+                Welcome, <span className="text-zinc-500">{user.name}</span> !
+              </h2>
+              <p className="text-zinc-400">Email: {user.email}</p>
+              <Link
+                href="/create-component"
+                className="inline-block mt-4 bg-zinc-700 text-white px-4 py-1 rounded-md hover:bg-zinc-800 transition"
+              >
+                Create Component
+              </Link>
+            </div>
             <button
-              className="bg-zinc-500 hover:bg-zinc-600 px-3 py-1 rounded"
+              className="mt-4 w-[5rem] self-end md:mt-0 bg-red-400 text-white px-4 py-1 rounded-md hover:bg-red-500 transition"
               onClick={handleLogout}
             >
               Logout
             </button>
           </div>
-        </div>
+
+          {/* User's Components */}
+          <div className="py-10">
+            <h3 className="text-xl font-semibold mb-4">Your Components</h3>
+            <div className="flex flex-wrap gap-3">
+              {user.components && user.components.length > 0 ? (
+                user.components.map((component) => (
+                  <ComponentsCard
+                    key={component._id}
+                    id={component._id}
+                    video={component.video}
+                    image={component.image}
+                    title={component.title || "Untitled Component"}
+                    description={
+                      component.description || "No description available"
+                    }
+                  />
+                ))
+              ) : (
+                <p className="text-zinc-400">
+                  No components found. Create one now!
+                </p>
+              )}
+            </div>
+          </div>
+        </>
       ) : (
-        <Link href={"/auth"} className="text-zinc-400">
-          No user found please <span className="text-white">sign-in</span> /{" "}
-          <span className="text-white">sign-up</span>
-        </Link>
+        <div className="flex flex-col items-center justify-center h-[80vh]">
+          <p className="text-lg text-zinc-400">
+            No user found. Please{" "}
+            <Link href="/auth" className="text-blue-500 underline">
+              sign in
+            </Link>{" "}
+            or{" "}
+            <Link href="/auth" className="text-blue-500 underline">
+              sign up
+            </Link>
+            .
+          </p>
+        </div>
       )}
-      <div className="flex gap-3 flex-wrap py-10">
-        {user?.components?.length ? (
-          user.components.map((com) => (
-            <ComponentsCard
-              key={com._id}
-              id={com._id}
-              video={com.video}
-              image={com.image}
-              title={com.title || "untitled component"}
-              description={com.description || "description not available"}
-            />
-          ))
-        ) : (
-          <Link href={"/auth"} className="text-zinc-400">
-            No components found
-          </Link>
-        )}
-      </div>
     </div>
   );
 };

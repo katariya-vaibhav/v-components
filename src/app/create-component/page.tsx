@@ -25,7 +25,6 @@ const CreateComponent = () => {
 
   const { isUserSignedIn, loading } = useUserData();
 
-
   if (!loading && !isUserSignedIn) {
     router.push("/auth");
   }
@@ -129,8 +128,8 @@ const CreateComponent = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 px-4 py-6">
-      <div className="bg-zinc-900 shadow-md border border-zinc-700 rounded-lg p-6 max-w-4xl w-full">
-        <h2 className="text-3xl font-bold text-white text-center mb-8">
+      <div className="bg-zinc-900 shadow-md border border-zinc-900 rounded-lg p-6 max-w-4xl w-full">
+        <h2 className="md:text-2xl font-bold text-white text-center mb-8">
           Create a New Component
         </h2>
         {errorMessage && (
@@ -138,7 +137,7 @@ const CreateComponent = () => {
         )}
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="flex flex-col gap-6"
         >
           <div>
             <label className="block text-sm font-medium text-zinc-400 mb-2">
@@ -149,7 +148,7 @@ const CreateComponent = () => {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              className="w-full border border-zinc-600 bg-zinc-800 p-2 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 text-sm text-white"
+              className="w-full border border-zinc-600 bg-zinc-800 p-3 rounded-md shadow-sm focus:ring-2 focus:ring-zinc-600 text-sm text-white"
               placeholder="Enter component title..."
               required
             />
@@ -163,7 +162,7 @@ const CreateComponent = () => {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              className="w-full border border-zinc-600 bg-zinc-800 p-2 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 text-sm text-white"
+              className="w-full border border-zinc-600 bg-zinc-800 p-3 rounded-md shadow-sm focus:ring-2 focus:ring-zinc-600 text-sm text-white"
               placeholder="Enter component description..."
               rows={2}
               required
@@ -191,7 +190,7 @@ const CreateComponent = () => {
               name="componentPath"
               value={formData.componentPath}
               onChange={handleInputChange}
-              className="w-full border border-zinc-600 bg-zinc-800 p-2 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 text-sm text-white"
+              className="w-full border border-zinc-600 bg-zinc-800 p-3 rounded-md shadow-sm focus:ring-2 focus:ring-zinc-600 text-sm text-white"
               placeholder="src/components/YourComponent.tsx"
               required
             />
@@ -205,7 +204,7 @@ const CreateComponent = () => {
               name="codeSnippet"
               value={formData.codeSnippet}
               onChange={handleInputChange}
-              className="w-full border border-zinc-600 bg-zinc-800 p-2 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 text-sm text-white"
+              className="w-full border border-zinc-600 bg-zinc-800 p-3 rounded-md shadow-sm focus:ring-2 focus:ring-zinc-600 text-sm text-white"
               placeholder="Enter code snippet..."
               rows={4}
               required
@@ -220,7 +219,7 @@ const CreateComponent = () => {
               name="componentCode"
               value={formData.componentCode}
               onChange={handleInputChange}
-              className="w-full border border-zinc-600 bg-zinc-800 p-2 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 text-sm text-white"
+              className="w-full border border-zinc-600 bg-zinc-800 p-3 rounded-md shadow-sm focus:ring-2 focus:ring-zinc-600 text-sm text-white"
               placeholder="Enter component code..."
               rows={4}
               required
@@ -236,7 +235,7 @@ const CreateComponent = () => {
               name="type"
               value={formData.type}
               onChange={handleInputChange}
-              className="w-full border border-zinc-600 bg-zinc-800 p-2 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 text-sm text-white"
+              className="w-full border border-zinc-600 bg-zinc-800 p-3 rounded-md shadow-sm focus:ring-2 focus:ring-zinc-600 text-sm text-white"
               placeholder="Enter component type..."
               required
             />
@@ -250,7 +249,7 @@ const CreateComponent = () => {
               name="componentsUses"
               value={formData.componentsUses}
               onChange={handleInputChange}
-              className="w-full border border-zinc-600 bg-zinc-800 p-2 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 text-sm text-white"
+              className="w-full border border-zinc-600 bg-zinc-800 p-3 rounded-md shadow-sm focus:ring-2 focus:ring-zinc-600 text-sm text-white"
               placeholder="How to use this component..."
               rows={2}
               required
@@ -260,7 +259,7 @@ const CreateComponent = () => {
           <div className="col-span-2 flex justify-between">
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+              className="w-full bg-zinc-700 hover:bg-zinc-800 text-white py-2 px-4 rounded-md transition duration-300"
               disabled={isLoading}
             >
               {isLoading ? "Creating..." : "Create Component"}
