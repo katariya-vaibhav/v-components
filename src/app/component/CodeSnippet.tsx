@@ -20,7 +20,7 @@ const CodeSnippet: React.FC<CodeSnippetProps> = ({ code }) => {
   };
 
   return (
-    <div className="relative bg-zinc-950 overflow-auto scrollbar text-white rounded-lg">
+    <div className="relative bg-zinc-950 overflow-auto scrollbar rounded-lg">
       <SyntaxHighlighter language="typescript" style={atomDark}>
         {code}
       </SyntaxHighlighter>

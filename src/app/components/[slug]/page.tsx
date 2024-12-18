@@ -148,7 +148,7 @@ const ComponentPage = () => {
 
   useEffect(() => {
     fetchComponents();
-  }, []);
+  }, [slug]);
 
   const isOwner =
     user && components?.owner && user?._id === components.owner._id;
