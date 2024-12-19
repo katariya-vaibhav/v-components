@@ -67,6 +67,12 @@ const Page = () => {
       </li>
     ));
 
+  const renderMobileInstallation = () => (
+    <li className="py-1 border-[1px] p-2 border-zinc-700 rounded-full my-1">
+      <Link href={`/components/installation`}>Installation</Link>
+    </li>
+  );
+
   const renderComponents = () =>
     componentsState.data.length > 0 ? (
       componentsState.data.map(({ _id, video, image, title, description }) => (
@@ -85,6 +91,12 @@ const Page = () => {
 
   return (
     <>
+      <div className="md:hidden">
+        <h3 className="font-bold pb-2">Installation</h3>
+        <ul className="flex flex-wrap text-md gap-2">
+          {renderMobileInstallation()}
+        </ul>
+      </div>
       <div className="md:hidden">
         <h3 className="font-bold pb-2">Components</h3>
         <ul className="flex flex-wrap text-md gap-2">{renderMobileLinks()}</ul>

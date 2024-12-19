@@ -7,7 +7,7 @@ const Sidebar = () => {
         <h3 className="font-bold pb-2">Get Started</h3>
         <ul className="pl-4 text-md">
           <li className="py-1">
-            <Link href={"/components/intallation"}>Installation</Link>
+            <Link href={"/components/installation"}>Installation</Link>
           </li>
         </ul>
       </>
