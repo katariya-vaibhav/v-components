@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
     setIsOpen(!isOpen);
   };
   
-  const menuItems = ["Components", "Example", "Colors" , "Me"];
+  const menuItems = ["Components", "Colors" , "Me"];
 
   return (
     <nav className="bg-zinc-950 absolute top-0 w-full border-b-[1px] border-zinc-800 text-white py-4 shadow-lg">
