@@ -26,7 +26,7 @@ const CodeSnippet: React.FC<CodeSnippetProps> = ({ code }) => {
       </SyntaxHighlighter>
       <button
         onClick={handleCopy}
-        className="absolute top-2 right-2 bg-zinc-500 hover:bg-zinc-600 text-white px-2 py-1 rounded"
+        className="absolute top-2 right-2 text-sm bg-zinc-500 hover:bg-zinc-600 text-white px-2 py-1 rounded"
       >
         {isCopied ? "Copied!" : "Copy"}
       </button>
