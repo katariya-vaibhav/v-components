@@ -166,7 +166,7 @@ export default function Home() {
             v-components/ui is an open-source React/Next.js component library.
           </p>
           <button className="bg-zinc-600 hover:bg-zinc-700 py-2 px-3 rounded-md font-semibold">
-            <Link href="/components">Get Started</Link>
+            <Link href="/components/installation">Get Started</Link>
           </button>
         </section>
 
