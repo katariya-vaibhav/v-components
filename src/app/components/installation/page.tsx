@@ -1,4 +1,5 @@
 import CodeSnippet from "@/app/component/CodeSnippet";
+import Link from "next/link";
 import React from "react";
 // Adjust the import path as necessary
 
@@ -64,6 +65,8 @@ const ButtonDemo = () => {
 export default ButtonDemo;
 `}
       />
+
+      <Link href={"/components"} className=" mx-auto flex items-center justify-center min-w-[15rem] my-2 bg-zinc-500 hover:bg-zinc-600 py-2 px-4 rounded-md">Get-Started With Components</Link>
     </div>
   );
 };

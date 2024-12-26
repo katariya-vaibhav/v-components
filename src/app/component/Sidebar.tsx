@@ -9,6 +9,9 @@ const Sidebar = () => {
           <li className="py-1">
             <Link href={"/components/installation"}>Installation</Link>
           </li>
+          <li className="py-1 hidden md:block">
+            <Link href={"/components"}>Users Components</Link>
+          </li>
         </ul>
       </>
       <>
