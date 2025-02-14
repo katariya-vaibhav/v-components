@@ -81,7 +81,7 @@ export default function Home() {
   };
 
   const renderFeedbackForm = () => (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-zinc-900 bg-opacity-50 z-50">
       <div className="bg-zinc-900 border border-zinc-700 rounded-lg shadow-lg w-full max-w-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold">Add your feedback</h3>
@@ -155,7 +155,7 @@ export default function Home() {
   );
 
   return (
-    <div className="text-zinc-50 font-sans">
+    <div className="text-zinc-50 bg-zinc-900 font-sans">
       <main className="container mx-auto px-6 py-10">
         <section className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Welcome to V-Components/UI</h2>

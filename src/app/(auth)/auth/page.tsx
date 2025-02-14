@@ -70,7 +70,7 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh] bg-zinc-950 px-4 py-6">
+    <div className="flex items-center justify-center min-h-[90.2vh] bg-zinc-950 px-4 py-6">
       <div className="bg-zinc-900 shadow-xl border border-zinc-700 rounded-xl p-8 max-w-lg w-full">
         <h2 className="md:text-2xl font-bold text-white text-center mb-6">
           {isLogin ? "Sign In" : "Sign Up"}

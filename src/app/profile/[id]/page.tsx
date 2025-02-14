@@ -57,7 +57,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="w-full min-h-[80vh] md:p-4 overflow-auto">
+    <div className="w-full min-h-[100vh] md:p-4 overflow-auto">
       <div className="flex border-b-[1px] pb-5 border-zinc-700 justify-between items-center">
         <div>
           <h2 className="text-xl py-2">

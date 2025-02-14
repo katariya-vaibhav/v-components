@@ -28,7 +28,7 @@ const MyProfile = () => {
   }
 
   return (
-    <div className="w-full min-h-[80vh] md:p-6">
+    <div className="w-full min-h-[90.2vh] md:p-6">
       {user ? (
         <>
           {/* Profile Header */}
