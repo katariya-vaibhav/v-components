@@ -1,3 +1,19 @@
+# node_modules
+# .next
+# Dockerfile
+# .dockerignore
+# ./src/.env
+# .env*
+# !.env.production
+# *.log
+# .git
+# .vscode
+# .idea
+# README.md
+
+
+
+
 
 Dockerfile
 .dockerignore
