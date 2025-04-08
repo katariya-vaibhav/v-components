@@ -1,26 +1,9 @@
-# Node modules and build output
-node_modules
-.next
 
-# Logs
-*.log
-
-# Environment files
-.env*
-!.env.production
-
-# Git
-.git
-.gitignore
-
-# Docker files
 Dockerfile
 .dockerignore
-
-# System files
-.DS_Store
-.vscode
-.idea
-
-# Docs or personal files
+node_modules
+npm-debug.log
 README.md
+.next
+docker
+.git
